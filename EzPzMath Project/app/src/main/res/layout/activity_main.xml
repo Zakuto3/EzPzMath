@@ -8,6 +8,26 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="254dp"
+
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/rounded_button"
+        android:text="Guest"
+        android:textColor="#C5F5C2"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button4" />
+
     <ImageView
         android:id="@+id/imageView12"
         android:layout_width="353dp"
@@ -24,20 +44,39 @@
         app:srcCompat="@drawable/rez_numbers" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/button4"
+        android:layout_width="254dp"
 
+        android:layout_height="65dp"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="250dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
         android:text="Login"
         android:textColor="#C5F5C2"
-        app:layout_constraintBottom_toTopOf="@+id/imageView12"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/imageButton9"
+        android:layout_width="45dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button"
+        app:layout_constraintBottom_toTopOf="@+id/imageView12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/login" />
+
 </android.support.constraint.ConstraintLayout>
