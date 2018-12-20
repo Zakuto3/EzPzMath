@@ -3,5 +3,16 @@
     <string name="level_easy">EASY</string>
     <string name="level_mediom">MEDIOM</string>
     <string name="level_hard">HARD</string>
+    <string name="scores">Scores</string>
+    <string-array name="highscore_modes">
+        <item>"+ ×"</item>
+        <item>"− ÷"</item>
+        <item>"+ × − ÷"</item>
+    </string-array>
+    <string-array name="highscore_level">
+        <item>"Easy"</item>
+        <item>"Normal"</item>
+        <item>"Hard"</item>
+    </string-array>
 
 </resources>

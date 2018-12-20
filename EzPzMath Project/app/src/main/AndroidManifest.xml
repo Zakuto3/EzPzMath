@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LevelsActivity"></activity>
+        <activity android:name=".LevelsActivity" />
+        <activity android:name=".ScoreActivity"></activity>
     </application>
 
 </manifest>
