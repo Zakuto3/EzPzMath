@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
@@ -53,6 +52,7 @@
         android:background="@drawable/rounded_button"
         android:text="Guest"
         android:textColor="#C5F5C2"
+        android:fontFamily="@font/joyfultheatre"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView12"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,6 +70,7 @@
         android:layout_marginRight="32dp"
         android:background="@drawable/rounded_button"
         android:text="Login"
+        android:fontFamily="@font/joyfultheatre"
         android:textColor="#C5F5C2"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/button3"
@@ -79,8 +80,8 @@
 
     <ImageButton
         android:id="@+id/imageButton9"
-        android:layout_width="49dp"
-        android:layout_height="51dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -91,8 +92,8 @@
 
     <ImageButton
         android:id="@+id/imageButton10"
-        android:layout_width="49dp"
-        android:layout_height="51dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
