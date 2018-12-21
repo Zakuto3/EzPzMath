@@ -18,8 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LevelsActivity" />
-        <activity android:name=".ScoreActivity"></activity>
+        <activity android:name=".LevelsActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ScoreActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ModesActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

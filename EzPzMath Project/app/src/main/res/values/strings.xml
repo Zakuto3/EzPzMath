@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">EzPzMath</string>
     <string name="level_easy">EASY</string>
-    <string name="level_mediom">MEDIOM</string>
+    <string name="level_mediom">NORMAL</string>
     <string name="level_hard">HARD</string>
     <string name="scores">Scores</string>
+    <string name="Add_mul_string">+ ×</string>
+    <string name="Sub_div_string">− ÷</string>
+    <string name="mixed_op_string">+ × − ÷</string>
     <string-array name="highscore_modes">
         <item>"+ ×"</item>
         <item>"− ÷"</item>

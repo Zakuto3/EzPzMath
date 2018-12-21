@@ -15,7 +15,8 @@
         android:background="@drawable/rounded_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back_image" />
+        app:srcCompat="@drawable/back"
+        android:scaleType="centerCrop"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -27,7 +28,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-
         app:layout_constraintBottom_toTopOf="@+id/button1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -75,7 +75,8 @@
             android:layout_marginLeft="25dp"
             android:layout_marginTop="15dp"
             android:background="#EAF8E9"
-            android:entries="@array/highscore_modes"/>
+            android:entries="@array/highscore_modes"
+            android:fontFamily="@font/joyfultheatre"/>
         <Spinner
             android:id="@+id/spinner2"
             app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +87,8 @@
             android:layout_marginRight="25dp"
             android:layout_marginTop="15dp"
             android:background="#EAF8E9"
-            android:entries="@array/highscore_level"/>
+            android:entries="@array/highscore_level"
+            android:fontFamily="@font/joyfultheatre"/>
         <TextView
             android:id="@+id/score"
             android:layout_width="100dp"
@@ -98,7 +100,8 @@
             android:layout_marginTop="5dp"
             android:textColor="#C5F5C2"
             android:textAlignment="center"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:fontFamily="@font/joyfultheatre"/>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -140,7 +143,8 @@
                         android:textAlignment="center"
                         android:textColor="#266352"
                         android:text="user1"
-                        android:layout_marginLeft="20dp" />
+                        android:layout_marginLeft="20dp"
+                        android:fontFamily="@font/joyfultheatre"/>
                     <TextView
                         android:id="@+id/usertime"
                         android:paddingTop="5sp"
@@ -151,7 +155,8 @@
                         android:textColor="#266352"
                         android:text="10:24:32"
                         android:layout_marginEnd="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_marginRight="20dp"
+                        android:fontFamily="@font/joyfultheatre"/>
                     <ImageView
                         android:id="@+id/scoreimg"
                         android:src="@drawable/score_image"

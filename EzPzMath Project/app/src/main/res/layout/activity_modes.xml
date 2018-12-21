@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LevelsActivity">
+    tools:context=".ModesActivity">
     <ImageButton
         android:id="@+id/imageButton9"
         android:layout_width="50dp"
@@ -15,7 +15,7 @@
         android:background="@drawable/rounded_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/back"
+        app:srcCompat="@drawable/settings"
         android:scaleType="centerCrop"/>
     <ImageButton
         android:id="@+id/imageButton10"
@@ -27,8 +27,63 @@
         android:background="@drawable/rounded_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sound_on"
+        app:srcCompat="@drawable/scores"
         android:scaleType="centerCrop"/>
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/Add_mul_string"
+        android:textColor="#C5F5C2"
+        android:textSize="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageView"
+        android:fontFamily="@font/kaushanscript"/>
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/Sub_div_string"
+        android:textColor="#C5F5C2"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/button1"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/kaushanscript"/>
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="170dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_button"
+        android:text="@string/mixed_op_string"
+        android:textColor="#C5F5C2"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/kaushanscript"/>
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -40,8 +95,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-
-        app:layout_constraintBottom_toTopOf="@+id/button1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,59 +116,6 @@
         app:layout_constraintVertical_bias="0.962"
         app:srcCompat="@drawable/rez_numbers" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="170dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:background="@drawable/rounded_button"
-        android:text="@string/level_easy"
-        android:textColor="#C5F5C2"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"
-        android:fontFamily="@font/joyfultheatre"/>
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="170dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/rounded_button"
-        android:text="@string/level_mediom"
-        android:textColor="#C5F5C2"
-        android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@id/button1"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/joyfultheatre"/>
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="170dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_button"
-        android:text="@string/level_hard"
-        android:textColor="#C5F5C2"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/joyfultheatre"/>
+
 
 </android.support.constraint.ConstraintLayout>

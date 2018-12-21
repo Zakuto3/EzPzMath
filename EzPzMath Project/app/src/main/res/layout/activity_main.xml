@@ -88,7 +88,8 @@
         android:background="@drawable/rounded_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/login" />
+        app:srcCompat="@drawable/exit"
+        android:scaleType="centerCrop"/>
 
     <ImageButton
         android:id="@+id/imageButton10"
@@ -100,6 +101,7 @@
         android:background="@drawable/rounded_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/volume_on" />
+        app:srcCompat="@drawable/sound_on"
+        android:scaleType="centerCrop"/>
 
 </android.support.constraint.ConstraintLayout>
