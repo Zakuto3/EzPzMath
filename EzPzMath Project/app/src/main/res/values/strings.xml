@@ -7,6 +7,7 @@
     <string name="Add_mul_string">+ ×</string>
     <string name="Sub_div_string">− ÷</string>
     <string name="mixed_op_string">+ × − ÷</string>
+    <string name="no_entry_score">--</string>
     <string-array name="highscore_modes">
         <item>"+ ×"</item>
         <item>"− ÷"</item>
