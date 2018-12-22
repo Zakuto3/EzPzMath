@@ -69,14 +69,15 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/rounded_button"
-        android:text="Login"
         android:fontFamily="@font/joyfultheatre"
+        android:text="Login"
         android:textColor="#C5F5C2"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <ImageButton
         android:id="@+id/imageButton9"
