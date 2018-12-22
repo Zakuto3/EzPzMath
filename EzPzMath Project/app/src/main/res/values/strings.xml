@@ -18,5 +18,5 @@
         <item>"Normal"</item>
         <item>"Hard"</item>
     </string-array>
-
+    <string name="settings">Settings</string>
 </resources>
