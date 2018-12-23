@@ -2,11 +2,9 @@ package com.waki.ezpzmath;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,10 +13,10 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +26,10 @@ public class ScoreActivity extends AppCompatActivity {
 
     TabLayout score;
     int currentScoreTab = 0;
+    ArrayAdapter<String> modesAdapter;
+    Spinner modeSpin;
+    ArrayAdapter<String> levelAdapter;
+    Spinner levelSpin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,48 @@ public class ScoreActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setScoreListener();
+        levelSpin = findViewById(R.id.spinner2);
+        String[] levels = new String[] {"Easy", "Normal", "Hard"};
+        levelAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, levels);
+        levelAdapter.setDropDownViewResource(R.layout.score_spinner_item);
+        levelSpin.setAdapter(levelAdapter);
+        modeSpin = findViewById(R.id.spinner);
+        String[] modes = new String[] {"+ ×", "− ÷", "+ × − ÷"};
+        modesAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, modes);
+        modesAdapter.setDropDownViewResource(R.layout.score_spinner_item);
+        modeSpin.setAdapter(modesAdapter);
+
+       /* modeSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = modeSpin.getSelectedItem().toString();
+                Toast.makeText(getApplicationContext(), "text: " + selected, Toast.LENGTH_LONG).show();
+                System.out.println("TEXT: "+selected);
+                switch (selected){
+                    case "+ ×":
+                        modesAdapter.clear();
+                        modesAdapter.add("− ÷");
+                        modesAdapter.add("+ × − ÷");
+                        break;
+                    case "− ÷":
+                        modesAdapter.clear();
+                        modesAdapter.add("+ ×");
+                        modesAdapter.add("+ × − ÷");
+                        break;
+                    case "+ × − ÷":
+                        modesAdapter.clear();
+                        modesAdapter.add("+ ×");
+                        modesAdapter.add("− ÷");
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
+
 
     }
 
