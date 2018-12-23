@@ -71,39 +71,14 @@ public class ScoreActivity extends AppCompatActivity {
         modesAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, modes);
         modesAdapter.setDropDownViewResource(R.layout.score_spinner_item);
         modeSpin.setAdapter(modesAdapter);
-
-       /* modeSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = modeSpin.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), "text: " + selected, Toast.LENGTH_LONG).show();
-                System.out.println("TEXT: "+selected);
-                switch (selected){
-                    case "+ ×":
-                        modesAdapter.clear();
-                        modesAdapter.add("− ÷");
-                        modesAdapter.add("+ × − ÷");
-                        break;
-                    case "− ÷":
-                        modesAdapter.clear();
-                        modesAdapter.add("+ ×");
-                        modesAdapter.add("+ × − ÷");
-                        break;
-                    case "+ × − ÷":
-                        modesAdapter.clear();
-                        modesAdapter.add("+ ×");
-                        modesAdapter.add("− ÷");
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-
+        try{
+            //onStart call highscore from database
+            //setScoreBoards();
+        }
+        catch (Exception e){
+            //If fail, do something user friendly
+            //handleScoreError();
+        }
     }
 
     public void setScoreListener(){
@@ -114,9 +89,7 @@ public class ScoreActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 LinearLayout top10 = findViewById(R.id.top_score);
                 LinearLayout yourScore = findViewById(R.id.your_place);
-                //CharSequence s = String.valueOf(tab.getPosition());
-                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                switch (tab.getPosition()) {
+                switch (tab.getPosition()) { //handle views based on selected tab
                     case 0:
                         if(currentScoreTab != 0) {
                             top10.setVisibility(View.GONE);
@@ -124,7 +97,6 @@ public class ScoreActivity extends AppCompatActivity {
                             top10.setAnimation( outToRightAnimation() );
                             yourScore.setAnimation( inFromLeftAnimation() );
                             currentScoreTab = 0;
-                            Toast.makeText(getApplicationContext(), "in 0", Toast.LENGTH_LONG).show();
                         }
                         break;
                     case 1:
@@ -134,7 +106,6 @@ public class ScoreActivity extends AppCompatActivity {
                             yourScore.setAnimation( outToLeftAnimation() );
                             top10.setAnimation( inFromRightAnimation() );
                             currentScoreTab = 1;
-                            Toast.makeText(getApplicationContext(), "in 1", Toast.LENGTH_LONG).show();
                         }
                         break;
                 }
@@ -168,55 +139,38 @@ public class ScoreActivity extends AppCompatActivity {
 
     public Animation outToRightAnimation()
     {
-        Animation outtoRight = new TranslateAnimation(
+        Animation outToRight = new TranslateAnimation(
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, +1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        outtoRight.setDuration(240);
-        outtoRight.setInterpolator(new AccelerateInterpolator());
-        return outtoRight;
+        outToRight.setDuration(240);
+        outToRight.setInterpolator(new AccelerateInterpolator());
+        return outToRight;
     }
 
     public Animation outToLeftAnimation()
     {
-        Animation outtoLeft = new TranslateAnimation(
+        Animation outToLeft = new TranslateAnimation(
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, -1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        outtoLeft.setDuration(240);
-        outtoLeft.setInterpolator(new AccelerateInterpolator());
-        return outtoLeft;
+        outToLeft.setDuration(240);
+        outToLeft.setInterpolator(new AccelerateInterpolator());
+        return outToLeft;
     }
 
     public Animation inFromLeftAnimation()
     {
-        Animation intoLeft = new TranslateAnimation(
+        Animation inFromLeft = new TranslateAnimation(
                 Animation.RELATIVE_TO_PARENT, -1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        intoLeft.setDuration(240);
-        intoLeft.setInterpolator(new AccelerateInterpolator());
-        return intoLeft;
-    }
-
-
-    //https://stackoverflow.com/questions/4605527/converting-pixels-to-dp
-    public int convertDpToPixel(float dp, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        double px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return (int)Math.floor(px);
-    }
-
-    public void setMargins(View view, float left, float top, float right, float bottom){
-        ViewGroup.MarginLayoutParams margins = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
-        margins.setMargins(convertDpToPixel(left,this),
-                convertDpToPixel(top,this),
-                convertDpToPixel(right,this),
-                convertDpToPixel(bottom,this));
+        inFromLeft.setDuration(240);
+        inFromLeft.setInterpolator(new AccelerateInterpolator());
+        return inFromLeft;
     }
 }
 
