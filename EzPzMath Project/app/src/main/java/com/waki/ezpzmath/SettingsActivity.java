@@ -1,12 +1,14 @@
 package com.waki.ezpzmath;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
     String [] Titles = {"How to play?", "Change password", "Music", "Remove ADS", "Logout"};
     Integer [] Images ={R.drawable.howtoplay,R.drawable.password,R.drawable.settings_sound_on, R.drawable.remove_ads,R.drawable.logout};
     ListView settingsListView;
+    public ImageButton back_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,20 @@ public class SettingsActivity extends AppCompatActivity {
         ListViewAdapter listViewAdapter = new ListViewAdapter(this, Titles,Images);
         settingsListView = (ListView) findViewById(R.id.settings_listView);
         settingsListView.setAdapter(listViewAdapter);
+
+        back_button = (ImageButton) findViewById(R.id.imageButton_setting_back);
+        back_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                openModesActivity();
+            }
+        });
+    }
+
+    public void openModesActivity(){
+        Intent intent = new Intent (this, ModesActivity.class);
+        startActivity(intent);
+
     }
 }
 class ListViewAdapter extends ArrayAdapter<String> {

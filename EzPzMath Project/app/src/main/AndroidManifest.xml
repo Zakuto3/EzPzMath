@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ScoreActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,11 +20,21 @@
         </activity>
         <activity
             android:name=".LevelsActivity"
+            android:parentActivityName=".ModesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ModesActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainActivity"></activity>
+        <activity
+            android:name=".ScoreActivity"
+            android:parentActivityName=".ModesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".ModesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".GameActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

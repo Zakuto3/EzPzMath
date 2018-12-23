@@ -1,6 +1,7 @@
 package com.waki.ezpzmath;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,9 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,14 +34,28 @@ public class ScoreActivity extends AppCompatActivity {
     Spinner modeSpin;
     ArrayAdapter<String> levelAdapter;
     Spinner levelSpin;
+    private ImageButton score_back_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
+        score_back_button = (ImageButton) findViewById(R.id.imageButton9);
+        score_back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openModesActivity();
+            }
+        });
+    }
+
+    public void openModesActivity(){
+        Intent intent = new Intent (this, ModesActivity.class);
+        startActivity(intent);
 
     }
+
 
     @Override
     protected void onStart() {
