@@ -19,6 +19,4 @@
         <item>"Hard"</item>
     </string-array>
     <string name="settings">Settings</string>
-    <string name="add_sub">+ -</string>
-    <string name="mult_div">* /</string>
 </resources>
