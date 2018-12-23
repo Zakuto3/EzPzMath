@@ -3,11 +3,9 @@ package com.waki.ezpzmath;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.os.Build;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,12 +14,13 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +30,10 @@ public class ScoreActivity extends AppCompatActivity {
 
     TabLayout score;
     int currentScoreTab = 0;
+    ArrayAdapter<String> modesAdapter;
+    Spinner modeSpin;
+    ArrayAdapter<String> levelAdapter;
+    Spinner levelSpin;
     private ImageButton score_back_button;
 
     @Override
@@ -58,7 +61,24 @@ public class ScoreActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         setScoreListener();
-
+        levelSpin = findViewById(R.id.spinner2);
+        String[] levels = new String[] {"Easy", "Normal", "Hard"};
+        levelAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, levels);
+        levelAdapter.setDropDownViewResource(R.layout.score_spinner_item);
+        levelSpin.setAdapter(levelAdapter);
+        modeSpin = findViewById(R.id.spinner);
+        String[] modes = new String[] {"+ ×", "− ÷", "+ × − ÷"};
+        modesAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, modes);
+        modesAdapter.setDropDownViewResource(R.layout.score_spinner_item);
+        modeSpin.setAdapter(modesAdapter);
+        try{
+            //onStart call highscore from database
+            //setScoreBoards();
+        }
+        catch (Exception e){
+            //If fail, do something user friendly
+            //handleScoreError();
+        }
     }
 
     public void setScoreListener(){
@@ -69,9 +89,7 @@ public class ScoreActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 LinearLayout top10 = findViewById(R.id.top_score);
                 LinearLayout yourScore = findViewById(R.id.your_place);
-                //CharSequence s = String.valueOf(tab.getPosition());
-                //Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-                switch (tab.getPosition()) {
+                switch (tab.getPosition()) { //handle views based on selected tab
                     case 0:
                         if(currentScoreTab != 0) {
                             top10.setVisibility(View.GONE);
@@ -79,7 +97,6 @@ public class ScoreActivity extends AppCompatActivity {
                             top10.setAnimation( outToRightAnimation() );
                             yourScore.setAnimation( inFromLeftAnimation() );
                             currentScoreTab = 0;
-                            Toast.makeText(getApplicationContext(), "in 0", Toast.LENGTH_LONG).show();
                         }
                         break;
                     case 1:
@@ -89,7 +106,6 @@ public class ScoreActivity extends AppCompatActivity {
                             yourScore.setAnimation( outToLeftAnimation() );
                             top10.setAnimation( inFromRightAnimation() );
                             currentScoreTab = 1;
-                            Toast.makeText(getApplicationContext(), "in 1", Toast.LENGTH_LONG).show();
                         }
                         break;
                 }
@@ -123,55 +139,38 @@ public class ScoreActivity extends AppCompatActivity {
 
     public Animation outToRightAnimation()
     {
-        Animation outtoRight = new TranslateAnimation(
+        Animation outToRight = new TranslateAnimation(
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, +1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        outtoRight.setDuration(240);
-        outtoRight.setInterpolator(new AccelerateInterpolator());
-        return outtoRight;
+        outToRight.setDuration(240);
+        outToRight.setInterpolator(new AccelerateInterpolator());
+        return outToRight;
     }
 
     public Animation outToLeftAnimation()
     {
-        Animation outtoLeft = new TranslateAnimation(
+        Animation outToLeft = new TranslateAnimation(
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, -1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        outtoLeft.setDuration(240);
-        outtoLeft.setInterpolator(new AccelerateInterpolator());
-        return outtoLeft;
+        outToLeft.setDuration(240);
+        outToLeft.setInterpolator(new AccelerateInterpolator());
+        return outToLeft;
     }
 
     public Animation inFromLeftAnimation()
     {
-        Animation intoLeft = new TranslateAnimation(
+        Animation inFromLeft = new TranslateAnimation(
                 Animation.RELATIVE_TO_PARENT, -1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        intoLeft.setDuration(240);
-        intoLeft.setInterpolator(new AccelerateInterpolator());
-        return intoLeft;
-    }
-
-
-    //https://stackoverflow.com/questions/4605527/converting-pixels-to-dp
-    public int convertDpToPixel(float dp, Context context){
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        double px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-        return (int)Math.floor(px);
-    }
-
-    public void setMargins(View view, float left, float top, float right, float bottom){
-        ViewGroup.MarginLayoutParams margins = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
-        margins.setMargins(convertDpToPixel(left,this),
-                convertDpToPixel(top,this),
-                convertDpToPixel(right,this),
-                convertDpToPixel(bottom,this));
+        inFromLeft.setDuration(240);
+        inFromLeft.setInterpolator(new AccelerateInterpolator());
+        return inFromLeft;
     }
 }
 
