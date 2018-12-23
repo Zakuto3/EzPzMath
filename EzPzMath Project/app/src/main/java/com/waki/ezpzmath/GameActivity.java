@@ -36,9 +36,12 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        test(5);//will use values sent in from other activities
-        generateAnswerField(5);
-        generateAnswerBoxes(difficulty,5);
+        difficulty = getIntent().getExtras().getInt("difficulty");
+        operators = getIntent().getExtras().getStringArray("operators");
+        int size = difficulty + 2;
+        test(size);//will use values sent in from other activities
+        generateAnswerField(size);
+        generateAnswerBoxes(difficulty,size);
         Timer t = new Timer();
         TimerTask task = new TimerTask(){
             @Override
@@ -209,7 +212,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void generateAnswerBoxes(int difficulty, int size)//do no know what this variable will become
-    {
+    {//this generates the lowest boxes
         final LinearLayout boxes = (LinearLayout)findViewById(R.id.answerBoxLayout);
         int[] temp = new int[difficulty + size];
         for (int i = 0; i < size; i++)
@@ -260,7 +263,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void test(int size)
+    private void test(int size)//the function which creates the equation
     {
         numbers = new int[size];
         operatorIndex = new int[size - 1];
@@ -273,7 +276,7 @@ public class GameActivity extends AppCompatActivity {
         }
         for (int i = 0; i < size - 1; i++)
         {
-            operatorIndex[i] = rnd.nextInt((3) + 1);
+            operatorIndex[i] = rnd.nextInt((operators.length));
             Log.d("msg", ""+operators[operatorIndex[i]]);
         }
         for (int i = 0; i < size; i++)

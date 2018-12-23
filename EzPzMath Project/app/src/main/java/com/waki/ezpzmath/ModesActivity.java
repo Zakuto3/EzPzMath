@@ -24,7 +24,8 @@ public class ModesActivity extends AppCompatActivity {
         first_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
-                openLevelsActivity();
+                String[] operators = {"+", "-"};
+                openLevelsActivity(operators);
             }
         });
 
@@ -32,7 +33,8 @@ public class ModesActivity extends AppCompatActivity {
         second_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
-                openLevelsActivity();
+                String[] operators = {"*", "/"};
+                openLevelsActivity(operators);
             }
         });
 
@@ -40,7 +42,8 @@ public class ModesActivity extends AppCompatActivity {
         third_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
-                openLevelsActivity();
+                String[] operators = {"+", "-", "*", "/"};
+                openLevelsActivity(operators);
 
             }
         });
@@ -62,8 +65,9 @@ public class ModesActivity extends AppCompatActivity {
         });
     }
 
-    public void openLevelsActivity(){
+    public void openLevelsActivity(String[] operators){
         Intent intent = new Intent (this, LevelsActivity.class);
+        intent.putExtra("operators", operators);
         startActivity(intent);
     }
 
