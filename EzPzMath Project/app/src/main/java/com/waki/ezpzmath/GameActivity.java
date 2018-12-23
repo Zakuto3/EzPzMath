@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
     Random rnd = new Random();
     int seconds = 0, minutes = 0, hours = 0; //time so it can be accessed out of timer
     int difficulty = 3;//todo if diff is sent in as string make function which decides how many extra boxes
-    String[] operators = { "+", "*", "-", "/" };//name says everything
+    String[] operators = { "+", "×", "-", "÷" };//name says everything
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
 
     @Override
