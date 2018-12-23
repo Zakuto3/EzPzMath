@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class LevelsActivity extends AppCompatActivity {
@@ -23,9 +24,23 @@ public class LevelsActivity extends AppCompatActivity {
                 openModesActivity();
             }
         });
+
+        Button HardMode = findViewById(R.id.button3);
+        HardMode.setOnClickListener((new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                openGameActivity();
+            }
+        }));
     }
     public void openModesActivity(){
         Intent intent = new Intent(this, ModesActivity.class);
+        startActivity(intent);
+    }
+    public void openGameActivity()
+    {
+        Intent intent = new Intent(this, GameActivity.class);
         startActivity(intent);
     }
 }

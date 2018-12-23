@@ -20,17 +20,19 @@
         </activity>
         <activity
             android:name=".LevelsActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ModesActivity"/>
+            android:parentActivityName=".ModesActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ModesActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ScoreActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ModesActivity"/>
-        <activity android:name=".SettingsActivity"
-            android:parentActivityName=".ModesActivity"/>
+            android:parentActivityName=".ModesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".ModesActivity" />
+        <activity android:name=".GameActivity"></activity>
     </application>
 
 </manifest>
