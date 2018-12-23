@@ -52,14 +52,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
-
-
+                    Intent intent =  new Intent(MainActivity.this, ModesActivity.class);
+                    startActivity(intent);
                 }
             }
         };
 
+        loginbtn = (SignInButton) findViewById(R.id.sign_in_button);
+        loginbtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View V){
+                signIn();
+            }
+        });
 
-            Guest_button = (Button) findViewById(R.id.button3);
+        Guest_button = (Button) findViewById(R.id.button3);
         Guest_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -84,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signIn();
+
     }
 
     public void openModesActivity(){
@@ -108,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 Toast.makeText(this,"Could not log in API EXC", Toast.LENGTH_SHORT).show();
-                // ...
+
             }
         }
     }
