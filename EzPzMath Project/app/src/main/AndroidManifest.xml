@@ -31,8 +31,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".ModesActivity" />
-        <activity android:name=".GameActivity"></activity>
+            android:parentActivityName=".ModesActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".GameActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
