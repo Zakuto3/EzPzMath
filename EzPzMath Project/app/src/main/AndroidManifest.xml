@@ -32,9 +32,11 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".ModesActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".GameActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GameActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".HowToPlayActivity"></activity>
     </application>
 
 </manifest>

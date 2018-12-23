@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SettingsActivity extends AppCompatActivity {
@@ -36,12 +38,42 @@ public class SettingsActivity extends AppCompatActivity {
                 openModesActivity();
             }
         });
+        settingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    //How To Play
+                    openHowToPlayActivity();
+                }
+                else if(position == 1){
+                    //Change Password
+                    Toast.makeText(getApplicationContext(),"Change Password",Toast.LENGTH_SHORT).show();
+
+                }else if(position == 2){
+                    //sound on/off
+                    Toast.makeText(getApplicationContext(),"sound on/off",Toast.LENGTH_SHORT).show();
+
+                }else if(position == 3){
+                    //remove ADS
+                    Toast.makeText(getApplicationContext(),"remove ADS",Toast.LENGTH_SHORT).show();
+
+                }else if(position == 4){
+                    //Logout
+                    Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
     }
 
     public void openModesActivity(){
         Intent intent = new Intent (this, ModesActivity.class);
         startActivity(intent);
 
+    }
+    public void openHowToPlayActivity(){
+        Intent intent = new Intent(this,HowToPlayActivity.class);
+        startActivity(intent);
     }
 }
 class ListViewAdapter extends ArrayAdapter<String> {
