@@ -2,8 +2,11 @@ package com.waki.ezpzmath;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
     int difficulty = 3;//todo if diff is sent in as string make function which decides how many extra boxes
     String[] operators = { "+", "*", "-", "/" };//name says everything
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
+    int winCount=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,34 +159,95 @@ public class GameActivity extends AppCompatActivity {
                 try {
                     double resultAnswer = (double)engine.eval(equation.toString());
                     Button myResult = (Button)findViewById(R.id.result);
+
                     if (resultAnswer == result)
                     {
                         Log.d("win", "grats");//todo make things happen when won
                         myResult.setText(String.format("%.2f", resultAnswer));
+                        winCount++;
+                        LinearLayout ll = (LinearLayout)findViewById(R.id.pastAnswers);
+                        ll.removeAllViews();
+                        Button pastResult = findViewById(R.id.result);
+                        pastResult.setText("");
+                        if (winCount == 5)//how many wins it takes to win the game
+                        {
+                            showWin();
+                        }
+                        else
+                        {
+                            LinearLayout answerButtons = findViewById(R.id.answerLayout);
+                            LinearLayout answerBoxes = findViewById(R.id.answerBoxLayout);
+                            answerBoxes.removeAllViews();
+                            answerButtons.removeAllViews();
+                            int size = difficulty + 2;
+                            test(size);//will use values sent in from other activities
+                            generateAnswerField(size);
+                            generateAnswerBoxes(difficulty ,size);
+                        }
+
+
                     }
                     else
                     {
+                        minutes++;
                         LinearLayout past = (LinearLayout)findViewById(R.id.pastAnswers);
                         past.addView(pastAnswer);
-                        for (int i = 0; i < numbers.length; i++)
-                        {
-                            Button temp = (Button)findViewById(i);
-                            temp.setText("");
-                        }
-                        for (int i = 0; i < numbers.length + difficulty; i++)
-                        {
-                            Button temp = (Button)findViewById(i+10);
-                            temp.setEnabled(true);
-                        }
-                        position = 0;
                         myResult.setText(String.format("%.2f", resultAnswer));
-                        minutes++;
                     }
+                    for (int i = 0; i < numbers.length; i++)
+                    {
+                        Button temp = (Button)findViewById(i);
+                        temp.setText("");
+                    }
+                    for (int i = 0; i < numbers.length + difficulty; i++)
+                    {
+                        Button temp = (Button)findViewById(i+10);
+                        temp.setEnabled(true);
+                    }
+                    position = 0;
                 } catch (ScriptException e) {
                     Log.e("error", e.getMessage());
                 }
             }
         };
+    }
+
+    private void showWin()//endgame screen
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("WinScreen");
+        builder.setMessage("You won on: " + String.format("%d:%02d:%02d", hours, minutes, seconds));
+        builder.setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                winCount = 0;
+                minutes = 0;
+                seconds = 0;
+                hours = 0;
+                LinearLayout answerButtons = findViewById(R.id.answerLayout);
+                LinearLayout answerBoxes = findViewById(R.id.answerBoxLayout);
+                answerBoxes.removeAllViews();
+                answerButtons.removeAllViews();
+                int size = difficulty + 2;
+                test(size);//will use values sent in from other activities
+                generateAnswerField(size);
+                generateAnswerBoxes(difficulty ,size);
+            }
+        });
+        builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openModesActivity();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void openModesActivity(){
+        Intent intent = new Intent(this, ModesActivity.class);
+        startActivity(intent);
     }
 
     View.OnClickListener getOnRemove(final int pos)
