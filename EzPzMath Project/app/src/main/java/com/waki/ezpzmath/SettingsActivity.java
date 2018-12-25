@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 }else if(position == 4){
                     //Logout
-                    Toast.makeText(getApplicationContext(),"Logout",Toast.LENGTH_SHORT).show();
+                    openLogInActivity();
 
                 }
             }
@@ -73,6 +73,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
     public void openHowToPlayActivity(){
         Intent intent = new Intent(this,HowToPlayActivity.class);
+        startActivity(intent);
+    }
+    public void openLogInActivity(){
+        Intent intent = new Intent(this, MainActivity.class );
         startActivity(intent);
     }
 }
