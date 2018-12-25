@@ -1,17 +1,22 @@
 package com.waki.ezpzmath;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,6 +27,8 @@ import java.util.TimerTask;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+
+
 
 public class GameActivity extends AppCompatActivity {
     int[] numbers;//will store all the numbers for the answer
@@ -35,6 +42,7 @@ public class GameActivity extends AppCompatActivity {
     String[] operators = { "+", "*", "-", "/" };//name says everything
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
     int winCount=0;
+    ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,14 @@ public class GameActivity extends AppCompatActivity {
             }
         };
         t.schedule(task,0,1000);
+        backButton = findViewById(R.id.backButton_game);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openModesActivity();
+            }
+        });
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -276,6 +292,7 @@ public class GameActivity extends AppCompatActivity {
         };
     }
 
+    @SuppressLint("ResourceAsColor")
     private void generateAnswerBoxes(int difficulty, int size)//do no know what this variable will become
     {//this generates the lowest boxes
         final LinearLayout boxes = (LinearLayout)findViewById(R.id.answerBoxLayout);
@@ -308,6 +325,8 @@ public class GameActivity extends AppCompatActivity {
         }
         Button submit = new Button(this);
         submit.setText("Submit");
+        submit.setBackgroundColor(Color.parseColor("#55cb4d"));
+        submit.setTextSize(7);
         submit.setOnClickListener(getOnSubmit(this));
         boxes.addView(submit);
         submit.getLayoutParams().height = 150;
