@@ -131,8 +131,20 @@ public class GameActivity extends AppCompatActivity {
             if (i < size - 1)
             {
                 TextView tempView = new TextView(this);
-                tempView.setText(operators[operatorIndex[i]]);
-                tempView.setTextSize(40);
+                if(operators[operatorIndex[i]].equals("/")) {
+                    tempView.setText("÷");
+                }
+                else if(operators[operatorIndex[i]].equals("*")) {
+                    tempView.setText("×");
+                }
+                else if (operators[operatorIndex[i]].equals("-")){
+                    tempView.setText("−");
+                }
+                else {
+                    tempView.setText(operators[operatorIndex[i]]);
+                }
+                tempView.setTextSize(30);
+                tempView.setTextColor(Color.parseColor("#c5f5c2"));
                 tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
                 answers.addView(tempView);
             }
@@ -186,7 +198,19 @@ public class GameActivity extends AppCompatActivity {
                     if (i < numbers.length - 1)
                     {
                         TextView tempView = new TextView(context);
-                        tempView.setText(operators[operatorIndex[i]]);
+                        if(operators[operatorIndex[i]].equals("/")) {
+                            tempView.setText("÷");
+                        }
+                        else if(operators[operatorIndex[i]].equals("*")) {
+                            tempView.setText("×");
+                        }
+                        else if (operators[operatorIndex[i]].equals("-")){
+                            tempView.setText("−");
+                        }
+                        else {
+                            tempView.setText(operators[operatorIndex[i]]);
+                        }
+                        tempView.setTextColor(Color.parseColor("#c5f5c2"));
                         pastAnswer.addView(tempView);
                     }
                 }
