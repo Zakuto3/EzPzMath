@@ -68,7 +68,9 @@ public class ModesActivity extends AppCompatActivity {
                 openSettingsActivity();
             }
         });
-        Toast.makeText(this,"Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        if(user != null) {
+            Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void openLevelsActivity(String[] operators){

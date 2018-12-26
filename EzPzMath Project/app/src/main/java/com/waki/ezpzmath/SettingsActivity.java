@@ -2,6 +2,7 @@ package com.waki.ezpzmath;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,17 +16,39 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class SettingsActivity extends AppCompatActivity {
     String [] Titles = {"How to play?", "Change password", "Music", "Remove ADS", "Logout"};
     Integer [] Images ={R.drawable.howtoplay,R.drawable.password,R.drawable.settings_sound_on, R.drawable.remove_ads,R.drawable.logout};
     ListView settingsListView;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
     public ImageButton back_button;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(mAuth.getCurrentUser() == null) {
+                    //openLogInActivity();
+                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class );
+                    startActivity(intent);
+                }
+            }
+        };
 
         ListViewAdapter listViewAdapter = new ListViewAdapter(this, Titles,Images);
         settingsListView = (ListView) findViewById(R.id.settings_listView);
@@ -59,8 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                 }else if(position == 4){
                     //Logout
-                    openLogInActivity();
-
+                    mAuth.signOut();
                 }
             }
         });
