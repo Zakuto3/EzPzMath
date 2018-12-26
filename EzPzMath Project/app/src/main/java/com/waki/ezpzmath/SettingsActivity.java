@@ -96,9 +96,19 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            openModesActivity();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void openModesActivity(){

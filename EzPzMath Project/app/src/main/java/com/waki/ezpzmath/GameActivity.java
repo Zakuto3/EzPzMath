@@ -69,7 +69,15 @@ public class GameActivity extends AppCompatActivity {
                 openModesActivity();
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            openModesActivity();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @SuppressLint("HandlerLeak")
