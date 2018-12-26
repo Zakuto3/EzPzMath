@@ -11,12 +11,13 @@ import android.widget.ImageButton;
 public class LevelsActivity extends AppCompatActivity {
 
     private ImageButton Level_back_button;
+    String[] operators;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels);
-
+        operators = getIntent().getExtras().getStringArray("operators");
         Level_back_button = (ImageButton) findViewById(R.id.imageButton9);
         Level_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,22 +26,42 @@ public class LevelsActivity extends AppCompatActivity {
             }
         });
 
+        Button EasyMode = findViewById(R.id.button1);
+        EasyMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGameActivity(1);
+            }
+        });
+
+        Button NormalMode = findViewById(R.id.button2);
+        NormalMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGameActivity(2);
+            }
+        });
+
         Button HardMode = findViewById(R.id.button3);
         HardMode.setOnClickListener((new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                openGameActivity();
+                openGameActivity(3);
             }
         }));
+
+
     }
     public void openModesActivity(){
         Intent intent = new Intent(this, ModesActivity.class);
         startActivity(intent);
     }
-    public void openGameActivity()
+    public void openGameActivity(int difficulty)
     {
         Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("difficulty", difficulty);
+        intent.putExtra("operators", operators);
         startActivity(intent);
     }
 }

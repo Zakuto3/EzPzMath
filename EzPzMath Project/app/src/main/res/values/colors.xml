@@ -6,4 +6,6 @@
     <color name="settingsBackground">#EAF8E9</color>
     <color name="textcolor">#266352</color>
     <color name="background">#66a96b</color>
+    <color name="sub_button_bg">#61E858</color>
+    <color name="res_answ_text_color">#c5f5c2</color>
 </resources>
