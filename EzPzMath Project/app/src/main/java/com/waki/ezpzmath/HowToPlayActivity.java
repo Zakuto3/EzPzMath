@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.provider.FontsContract;
 import android.support.annotation.FontRes;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -42,14 +41,11 @@ public class HowToPlayActivity extends AppCompatActivity {
         });
         textSwitcher = (TextSwitcher) findViewById(R.id.text_switcher);
         textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public View makeView() {
                 TextView text1 = new TextView(HowToPlayActivity.this);
                 text1.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 text1.setTextSize(20);
-                Typeface type = getResources().getFont(R.font.joyfultheatre);
-                text1.setTypeface(type);
                 text1.setTextColor(Color.parseColor("#266352"));
                 return text1;
             }
@@ -93,6 +89,14 @@ public class HowToPlayActivity extends AppCompatActivity {
         });
 
 
+    }
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            openSettingsActivity();
+        } else {
+            super.onBackPressed();
+        }
     }
     public void openSettingsActivity(){
         Intent intent = new Intent(this,SettingsActivity.class);

@@ -50,6 +50,15 @@ public class ScoreActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            openModesActivity();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public void openModesActivity(){
         Intent intent = new Intent (this, ModesActivity.class);
         startActivity(intent);
