@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -35,6 +36,7 @@ public class GameActivity extends AppCompatActivity {
     String[] operators = { "+", "*", "-", "/" };//name says everything
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
     int winCount=0;
+    Timer t = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,18 @@ public class GameActivity extends AppCompatActivity {
         difficulty = getIntent().getExtras().getInt("difficulty");
         operators = getIntent().getExtras().getStringArray("operators");
         int size = difficulty + 2;
+
         test(size);//will use values sent in from other activities
+        if (difficulty <= 2)
+        {
+            while (!(result % 1 == 0))
+            {
+                test(size);
+            }
+        }
         generateAnswerField(size);
         generateAnswerBoxes(difficulty,size);
-        Timer t = new Timer();
+
         TimerTask task = new TimerTask(){
             @Override
             public void run() {
@@ -54,6 +64,7 @@ public class GameActivity extends AppCompatActivity {
             }
         };
         t.schedule(task,0,1000);
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -99,6 +110,8 @@ public class GameActivity extends AppCompatActivity {
             {
                 TextView tempView = new TextView(this);
                 tempView.setText(operators[operatorIndex[i]]);
+                tempView.setTextSize(40);
+                tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
                 answers.addView(tempView);
             }
         }
@@ -217,6 +230,7 @@ public class GameActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("WinScreen");
+        t.cancel();
         builder.setMessage("You won on: " + String.format("%d:%02d:%02d", hours, minutes, seconds));
         builder.setPositiveButton("Play Again", new DialogInterface.OnClickListener() {
             @Override
@@ -233,6 +247,14 @@ public class GameActivity extends AppCompatActivity {
                 test(size);//will use values sent in from other activities
                 generateAnswerField(size);
                 generateAnswerBoxes(difficulty ,size);
+                t = new Timer();
+                TimerTask task = new TimerTask(){
+                    @Override
+                    public void run() {
+                        updateLabel.sendEmptyMessage(0);//this updates the timer field
+                    }
+                };
+                t.schedule(task,0,1000);
             }
         });
         builder.setNegativeButton("Exit", new DialogInterface.OnClickListener() {
@@ -255,23 +277,26 @@ public class GameActivity extends AppCompatActivity {
         return new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                tempPos = position;
-                Button temp = (Button)findViewById(pos);
-                for (int i = 0; i < numbers.length+difficulty; i++)
+                if (!(pos == position))
                 {
-                    Button check = (Button)findViewById(i+10);
-                    if (check.getText().equals(temp.getText()))
+                    tempPos = position;
+                    Button temp = (Button)findViewById(pos);
+                    for (int i = 0; i < numbers.length+difficulty; i++)
                     {
-                        if (!check.isEnabled())
+                        Button check = (Button)findViewById(i+10);
+                        if (check.getText().equals(temp.getText()))
                         {
-                            check.setEnabled(true);
-                            break;
+                            if (!check.isEnabled())
+                            {
+                                check.setEnabled(true);
+                                break;
+                            }
                         }
                     }
+                    temp.setText("");
+                    position = pos;
+                    boxPressed = true;
                 }
-                temp.setText("");
-                position = pos;
-                boxPressed = true;
             }
         };
     }
