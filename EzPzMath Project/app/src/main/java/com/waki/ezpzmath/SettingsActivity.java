@@ -27,18 +27,14 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     public ImageButton back_button;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        mAuth = FirebaseAuth.getInstance();
 
+        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -81,11 +77,28 @@ public class SettingsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"remove ADS",Toast.LENGTH_SHORT).show();
 
                 }else if(position == 4){
+                    mAuthListener = new FirebaseAuth.AuthStateListener() { //should consider this to be outside switch and under onAuthStateChanged
+                        @Override
+                        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                            if(mAuth.getCurrentUser() == null) {
+                                //openLogInActivity();
+                                Intent intent = new Intent(SettingsActivity.this, MainActivity.class );
+                                startActivity(intent);
+                            }
+                        }
+                    };
                     //Logout
+                    mAuth.addAuthStateListener(mAuthListener);//per standard/industry this should be in onStart
+
                     mAuth.signOut();
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     public void openModesActivity(){
@@ -95,10 +108,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
     public void openHowToPlayActivity(){
         Intent intent = new Intent(this,HowToPlayActivity.class);
-        startActivity(intent);
-    }
-    public void openLogInActivity(){
-        Intent intent = new Intent(this, MainActivity.class );
         startActivity(intent);
     }
 }
