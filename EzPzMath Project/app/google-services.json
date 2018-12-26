@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "862807137429-20hbog7okl2fm094sgj5jokact8452sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "c5d4e538a214548f641279e7fac264b1b1764c97"
+          }
+        },
+        {
+          "client_id": "862807137429-o95sph48gefph092oe3vnghtq7v9je8c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "5eb894a190920b719aef4eb379fb54817a16ef38"
+          }
+        },
+        {
           "client_id": "862807137429-8es8eqosai9fkvpq3goecvkj5cdgt4ik.apps.googleusercontent.com",
           "client_type": 3
         }
