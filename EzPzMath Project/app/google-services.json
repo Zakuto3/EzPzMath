@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "862807137429",
+    "firebase_url": "https://ezpzmath-55f6c.firebaseio.com",
+    "project_id": "ezpzmath-55f6c",
+    "storage_bucket": "ezpzmath-55f6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862807137429:android:80f7e222fa3614ae",
+        "android_client_info": {
+          "package_name": "com.waki.ezpzmath"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862807137429-7qgal43jqb6eqld4pbnngls8nmh763id.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "ff7fff0998a6574258ecfa78426d1e0309543042"
+          }
+        },
+        {
+          "client_id": "862807137429-8es8eqosai9fkvpq3goecvkj5cdgt4ik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmNzLvhE9ujzI7MDiPMBWgmad5cp8NH6s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862807137429-8es8eqosai9fkvpq3goecvkj5cdgt4ik.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

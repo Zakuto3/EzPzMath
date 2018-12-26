@@ -94,6 +94,14 @@ public class HowToPlayActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public void onBackPressed() {
+        if (true) {
+            openSettingsActivity();
+        } else {
+            super.onBackPressed();
+        }
+    }
     public void openSettingsActivity(){
         Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);

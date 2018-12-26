@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ModesActivity extends AppCompatActivity {
     private Button first_mode_button;
@@ -14,6 +18,7 @@ public class ModesActivity extends AppCompatActivity {
     private Button third_mode_button;
     private ImageButton score_button;
     private ImageButton Settings_button;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,9 @@ public class ModesActivity extends AppCompatActivity {
                 openSettingsActivity();
             }
         });
+        if(user != null) {
+            Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void openLevelsActivity(String[] operators){
