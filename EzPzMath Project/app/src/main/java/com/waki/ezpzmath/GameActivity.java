@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -319,6 +320,7 @@ public class GameActivity extends AppCompatActivity {
 
             Button tempButton = new Button(this);
             tempButton.setText(Integer.toString(temp[i]));
+            //tempButton.setBackgroundColor(Color.parseColor("#c5f5c2"));
             tempButton.setOnClickListener(getOnClick(tempButton));
             tempButton.setId(i+10);
             boxes.addView(tempButton);
@@ -331,14 +333,18 @@ public class GameActivity extends AppCompatActivity {
                 boxes.addView(tempView);
             }
         }
-        Button submit = new Button(this);
-        submit.setText("Submit");
+        /*Button submit = new Button(this);
+        submit.setText("✓");
         submit.setBackgroundColor(Color.parseColor("#55cb4d"));
-        submit.setTextSize(7);
+        submit.setTextSize(20);
+        submit.setGravity(Gravity.CENTER);
         submit.setOnClickListener(getOnSubmit(this));
         boxes.addView(submit);
-        submit.getLayoutParams().height = 150;
-        submit.getLayoutParams().width = 150;
+        submit.getLayoutParams().height = 160;
+        submit.getLayoutParams().width = 150;*/
+        Button submit = findViewById(R.id.submit_button);
+        submit.setOnClickListener(getOnSubmit(this));
+
     }
 
     private void shuffleArr(int[] ar)//for shuffling the answer boxes

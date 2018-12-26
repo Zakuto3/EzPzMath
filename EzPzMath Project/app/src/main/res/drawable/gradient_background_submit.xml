@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            android:shape="rectangle">
+            <corners
+                android:bottomLeftRadius="7dp"
+                android:topLeftRadius="7dp"
+                android:topRightRadius="7dp"
+                android:bottomRightRadius="7dp"
+                android:radius="7dp"/>
+            <gradient
+                android:angle="90"
+                android:startColor="#31742c"
+                android:endColor="#61e858"
+                android:type="linear"/>
+        </shape>
+
+    </item>
+    //effect when button is clicked
+    <item
+        android:state_pressed="true">
+        <shape
+            android:shape="rectangle">
+            <corners
+                android:bottomLeftRadius="15dp"
+                android:topLeftRadius="15dp"
+                android:topRightRadius="15dp"
+                android:bottomRightRadius="15dp"
+                android:radius="10dp"/>
+            <solid
+                android:color="#128061"/>
+        </shape>
+
+    </item>
+</selector>
