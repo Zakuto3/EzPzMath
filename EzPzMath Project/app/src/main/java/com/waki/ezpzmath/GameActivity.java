@@ -134,8 +134,20 @@ public class GameActivity extends AppCompatActivity {
             if (i < size - 1)
             {
                 TextView tempView = new TextView(this);
-                tempView.setText(operators[operatorIndex[i]]);
-                tempView.setTextSize(40);
+                if(operators[operatorIndex[i]].equals("/")) {
+                    tempView.setText("÷");
+                }
+                else if(operators[operatorIndex[i]].equals("*")) {
+                    tempView.setText("×");
+                }
+                else if (operators[operatorIndex[i]].equals("-")){
+                    tempView.setText("−");
+                }
+                else {
+                    tempView.setText(operators[operatorIndex[i]]);
+                }
+                tempView.setTextSize(30);
+                tempView.setTextColor(Color.parseColor("#c5f5c2"));
                 tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
                 answers.addView(tempView);
             }
@@ -221,7 +233,19 @@ public class GameActivity extends AppCompatActivity {
                     if (i < numbers.length - 1)
                     {
                         TextView tempView = new TextView(context);
-                        tempView.setText(operators[operatorIndex[i]]);
+                        if(operators[operatorIndex[i]].equals("/")) {
+                            tempView.setText("÷");
+                        }
+                        else if(operators[operatorIndex[i]].equals("*")) {
+                            tempView.setText("×");
+                        }
+                        else if (operators[operatorIndex[i]].equals("-")){
+                            tempView.setText("−");
+                        }
+                        else {
+                            tempView.setText(operators[operatorIndex[i]]);
+                        }
+                        tempView.setTextColor(Color.parseColor("#c5f5c2"));
                         pastAnswer.addView(tempView);
                     }
 
@@ -379,6 +403,7 @@ public class GameActivity extends AppCompatActivity {
 
             Button tempButton = new Button(this);
             tempButton.setText(Integer.toString(temp[i]));
+            //tempButton.setBackgroundColor(Color.parseColor("#c5f5c2"));
             tempButton.setOnClickListener(getOnClick(tempButton));
             tempButton.setId(i+10);
             boxes.addView(tempButton);
@@ -391,14 +416,18 @@ public class GameActivity extends AppCompatActivity {
                 boxes.addView(tempView);
             }
         }
-        Button submit = new Button(this);
-        submit.setText("Submit");
+        /*Button submit = new Button(this);
+        submit.setText("✓");
         submit.setBackgroundColor(Color.parseColor("#55cb4d"));
-        submit.setTextSize(7);
+        submit.setTextSize(20);
+        submit.setGravity(Gravity.CENTER);
         submit.setOnClickListener(getOnSubmit(this));
         boxes.addView(submit);
-        submit.getLayoutParams().height = 150;
-        submit.getLayoutParams().width = 150;
+        submit.getLayoutParams().height = 160;
+        submit.getLayoutParams().width = 150;*/
+        Button submit = findViewById(R.id.submit_button);
+        submit.setOnClickListener(getOnSubmit(this));
+
     }
 
     private void shuffleArr(int[] ar)//for shuffling the answer boxes

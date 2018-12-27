@@ -9,8 +9,8 @@
     <string name="mixed_op_string">+ × − ÷</string>
     <string name="no_entry_score">--</string>
     <string-array name="highscore_modes">
-        <item>"+ ×"</item>
-        <item>"− ÷"</item>
+        <item>"+ −"</item>
+        <item>"× ÷"</item>
         <item>"+ × − ÷"</item>
     </string-array>
     <string-array name="highscore_level">

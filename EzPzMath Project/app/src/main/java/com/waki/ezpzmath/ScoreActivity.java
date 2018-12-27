@@ -76,7 +76,7 @@ public class ScoreActivity extends AppCompatActivity {
         levelAdapter.setDropDownViewResource(R.layout.score_spinner_item);
         levelSpin.setAdapter(levelAdapter);
         modeSpin = findViewById(R.id.spinner);
-        String[] modes = new String[] {"+ ×", "− ÷", "+ × − ÷"};
+        String[] modes = new String[] {"+ −", "× ÷", "+ × − ÷"};
         modesAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, modes);
         modesAdapter.setDropDownViewResource(R.layout.score_spinner_item);
         modeSpin.setAdapter(modesAdapter);
