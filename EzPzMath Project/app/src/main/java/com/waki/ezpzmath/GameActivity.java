@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 import java.util.Timer;
@@ -39,7 +40,7 @@ public class GameActivity extends AppCompatActivity {
     double result;
     Random rnd = new Random();
     int seconds = 0, minutes = 0, hours = 0; //time so it can be accessed out of timer
-    int difficulty = 3;//todo if diff is sent in as string make function which decides how many extra boxes
+    int difficulty = 3;
     String[] operators = { "+", "*", "-", "/" };//name says everything
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
     int winCount=0;
@@ -53,7 +54,8 @@ public class GameActivity extends AppCompatActivity {
         difficulty = getIntent().getExtras().getInt("difficulty");
         operators = getIntent().getExtras().getStringArray("operators");
         int size = difficulty + 2;
-
+        TextView count = findViewById(R.id.wincount);
+        count.setText("Wins: " + winCount + "/ 5");
         test(size);//will use values sent in from other activities
         if (difficulty <= 2)
         {
@@ -63,7 +65,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         generateAnswerField(size);
-        generateAnswerBoxes(difficulty,size);
+        generateAnswerBoxes(1,size);
         TimerTask task = new TimerTask(){
             @Override
             public void run() {
@@ -84,6 +86,7 @@ public class GameActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (true) {
             openModesActivity();
+            finish();
         } else {
             super.onBackPressed();
         }
@@ -115,7 +118,7 @@ public class GameActivity extends AppCompatActivity {
 
 
 
-    private void generateAnswerField(int size)//todo make boxes better looking and make so it has has some space between each other
+    private void generateAnswerField(int size)
     {
         final LinearLayout answers = (LinearLayout)findViewById(R.id.answerLayout);
 
@@ -144,7 +147,23 @@ public class GameActivity extends AppCompatActivity {
         return new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
                 Button temp = (Button)findViewById(position);
+                if (!temp.getText().equals(""))
+                {
+                    for (int i = 0; i < numbers.length+difficulty; i++)
+                    {
+                        Button check = (Button)findViewById(i+10);
+                        if (check.getText().equals(temp.getText()))
+                        {
+                            if (!check.isEnabled())
+                            {
+                                check.setEnabled(true);
+                                break;
+                            }
+                        }
+                    }
+                }
                 temp.setText(button.getText());
                 button.setEnabled(false);
                 if (position < numbers.length - 1 && !boxPressed)
@@ -153,7 +172,15 @@ public class GameActivity extends AppCompatActivity {
                 }
                 if (boxPressed)
                 {
-                    position = tempPos;
+                    for (int i = 0; i < numbers.length; i++)
+                    {
+                        Button pos = findViewById(i);
+                        if (pos.getText().equals(""))
+                        {
+                            position = i;
+                             break;
+                        }
+                    }
                     boxPressed = false;
                 }
             }
@@ -167,9 +194,17 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 StringBuilder equation = new StringBuilder();
                 LinearLayout pastAnswer = new LinearLayout(context);
+
+
                 for (int i = 0; i < numbers.length; i++)
                 {
                     Button temp = (Button)findViewById(i);
+                    if (temp.getText().equals(""))
+                    {
+                        Toast toast = Toast.makeText(context, "All boxes need to be filled", Toast.LENGTH_SHORT);
+                        toast.show();
+                        return;
+                    }
                     if(i < numbers.length - 1)
                     {
                         equation.append(temp.getText()).append(operators[operatorIndex[i]]);
@@ -189,6 +224,7 @@ public class GameActivity extends AppCompatActivity {
                         tempView.setText(operators[operatorIndex[i]]);
                         pastAnswer.addView(tempView);
                     }
+
                 }
                 Log.d("eq", equation.toString());
                 try {
@@ -204,6 +240,8 @@ public class GameActivity extends AppCompatActivity {
                         ll.removeAllViews();
                         Button pastResult = findViewById(R.id.result);
                         pastResult.setText("");
+                        TextView count = findViewById(R.id.wincount);
+                        count.setText("Wins: " + winCount + "/ 5");
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             showWin();
@@ -217,10 +255,8 @@ public class GameActivity extends AppCompatActivity {
                             int size = difficulty + 2;
                             test(size);//will use values sent in from other activities
                             generateAnswerField(size);
-                            generateAnswerBoxes(difficulty ,size);
+                            generateAnswerBoxes(1 ,size);
                         }
-
-
                     }
                     else
                     {
@@ -234,8 +270,9 @@ public class GameActivity extends AppCompatActivity {
                         Button temp = (Button)findViewById(i);
                         temp.setText("");
                     }
-                    for (int i = 0; i < numbers.length + difficulty; i++)
+                    for (int i = 0; i < numbers.length + 1; i++)
                     {
+                        Log.e("error", ""+i);
                         Button temp = (Button)findViewById(i+10);
                         temp.setEnabled(true);
                     }
@@ -268,7 +305,7 @@ public class GameActivity extends AppCompatActivity {
                 int size = difficulty + 2;
                 test(size);//will use values sent in from other activities
                 generateAnswerField(size);
-                generateAnswerBoxes(difficulty ,size);
+                generateAnswerBoxes(1 ,size);
                 t = new Timer();
                 TimerTask task = new TimerTask(){
                     @Override
