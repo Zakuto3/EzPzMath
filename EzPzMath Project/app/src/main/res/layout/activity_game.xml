@@ -190,37 +190,44 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/answer_result_box" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="100dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/text_layout_box"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:text="Result"
-        android:gravity="center"
-        android:layout_marginRight="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/answer_result_box"
+        app:layout_constraintBottom_toTopOf="@id/answer_result_box"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/textView2"
-        android:textSize="15dp"
-        android:textColor="@color/textcolor"
-        android:layout_marginLeft="80dp"
-        android:fontFamily="@font/joyfultheatre"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timer">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="70dp"
-        android:text="Answer"
-        android:layout_marginLeft="15dp"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/answer_result_box"
-        app:layout_constraintRight_toRightOf = "parent"
-        app:layout_constraintLeft_toRightOf="@id/textView"
-        android:textSize="15dp"
-        android:textColor="@color/textcolor"
-        android:fontFamily="@font/joyfultheatre"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="100dp"
+            android:layout_height="16dp"
+            android:layout_marginRight="20dp"
+            android:fontFamily="@font/joyfultheatre"
+            android:gravity="center"
+            android:text="Result"
+            android:textColor="@color/textcolor"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toLeftOf="@id/text_layout_box"
+            app:layout_constraintRight_toLeftOf="@id/textView2"
+            app:layout_constraintTop_toTopOf="@id/text_layout_box" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+
+            android:text="Answer"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/text_layout_box"
+            app:layout_constraintRight_toRightOf = "parent"
+            app:layout_constraintLeft_toRightOf="@id/textView"
+            android:textSize="15dp"
+            android:textColor="@color/textcolor"
+            android:fontFamily="@font/joyfultheatre"/>
+    </android.support.constraint.ConstraintLayout>
 
     <TextView
         android:id="@+id/timer"

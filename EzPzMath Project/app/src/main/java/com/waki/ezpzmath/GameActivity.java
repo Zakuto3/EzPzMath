@@ -56,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
         operators = getIntent().getExtras().getStringArray("operators");
         int size = difficulty + 2;
         TextView count = findViewById(R.id.wincount);
-        count.setText(winCount + "/ 5");
+        count.setText(winCount + "/5");
         test(size);//will use values sent in from other activities
         if (difficulty <= 2)
         {
@@ -271,7 +271,7 @@ public class GameActivity extends AppCompatActivity {
                         Button pastResult = findViewById(R.id.result);
                         pastResult.setText("");
                         TextView count = findViewById(R.id.wincount);
-                        count.setText( winCount + "/ 5");
+                        count.setText( winCount + "/5");
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             showWin();
