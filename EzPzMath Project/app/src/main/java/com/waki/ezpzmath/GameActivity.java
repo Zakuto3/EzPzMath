@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -55,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
         operators = getIntent().getExtras().getStringArray("operators");
         int size = difficulty + 2;
         TextView count = findViewById(R.id.wincount);
-        count.setText("Wins: " + winCount + "/ 5");
+        count.setText(winCount + "/ 5");
         test(size);//will use values sent in from other activities
         if (difficulty <= 2)
         {
@@ -161,8 +162,10 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Button temp = (Button)findViewById(position);
+                button.setTextColor(button.getContext().getResources().getColor(R.color.unabeld_button));
                 if (!temp.getText().equals(""))
                 {
+
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
                         Button check = (Button)findViewById(i+10);
@@ -171,12 +174,14 @@ public class GameActivity extends AppCompatActivity {
                             if (!check.isEnabled())
                             {
                                 check.setEnabled(true);
+                                check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
                                 break;
                             }
                         }
                     }
                 }
                 temp.setText(button.getText());
+                temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
                 button.setEnabled(false);
                 if (position < numbers.length - 1 && !boxPressed)
                 {
@@ -227,6 +232,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     Button tempButton = new Button(context);
                     tempButton.setText(temp.getText());
+                    tempButton.setTextColor(tempButton.getContext().getResources().getColor(R.color.textcolor));
                     pastAnswer.addView(tempButton);
                     tempButton.getLayoutParams().height = 150;
                     tempButton.getLayoutParams().width = 150;
@@ -265,7 +271,7 @@ public class GameActivity extends AppCompatActivity {
                         Button pastResult = findViewById(R.id.result);
                         pastResult.setText("");
                         TextView count = findViewById(R.id.wincount);
-                        count.setText("Wins: " + winCount + "/ 5");
+                        count.setText( winCount + "/ 5");
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             showWin();
@@ -298,6 +304,7 @@ public class GameActivity extends AppCompatActivity {
                     {
                         Log.e("error", ""+i);
                         Button temp = (Button)findViewById(i+10);
+                        temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
                         temp.setEnabled(true);
                     }
                     position = 0;
@@ -372,6 +379,7 @@ public class GameActivity extends AppCompatActivity {
                             if (!check.isEnabled())
                             {
                                 check.setEnabled(true);
+                                check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
                                 break;
                             }
                         }
@@ -403,12 +411,16 @@ public class GameActivity extends AppCompatActivity {
 
             Button tempButton = new Button(this);
             tempButton.setText(Integer.toString(temp[i]));
-            //tempButton.setBackgroundColor(Color.parseColor("#c5f5c2"));
+            tempButton.setTextColor(tempButton.getContext().getResources().getColor(R.color.textcolor));
+            //tempButton.setBackgroundColor(tempButton.getContext().getResources().getColor(R.color.res_answ_text_color));
+            tempButton.setGravity(Gravity.CENTER);
+
+
             tempButton.setOnClickListener(getOnClick(tempButton));
             tempButton.setId(i+10);
             boxes.addView(tempButton);
-            tempButton.getLayoutParams().height = 110;
-            tempButton.getLayoutParams().width = 110;
+            tempButton.getLayoutParams().height = 140;
+            tempButton.getLayoutParams().width = 140;
             if (i < size - 1)
             {
                 TextView tempView = new TextView(this);//temp solution
