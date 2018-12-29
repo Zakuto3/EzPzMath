@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -47,6 +61,8 @@ public class GameActivity extends AppCompatActivity {
     int winCount=0;
     Timer t = new Timer();
     ImageButton backButton;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +124,7 @@ public class GameActivity extends AppCompatActivity {
             }
             seconds = seconds % 60;
             minutes = minutes % 60;
-            TextView timer = (TextView)findViewById(R.id.timer);
+            TextView timer = findViewById(R.id.timer);
             timer.setText(String.format("%d:%02d:%02d", hours, minutes, seconds));
         }
     };
@@ -121,7 +137,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void generateAnswerField(int size)
     {
-        final LinearLayout answers = (LinearLayout)findViewById(R.id.answerLayout);
+        final LinearLayout answers = findViewById(R.id.answerLayout);
 
         for (int i = 0; i < size; i++)
         {
@@ -161,14 +177,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Button temp = (Button)findViewById(position);
+                Button temp = findViewById(position);
                 button.setTextColor(button.getContext().getResources().getColor(R.color.unabeld_button));
                 if (!temp.getText().equals(""))
                 {
 
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
-                        Button check = (Button)findViewById(i+10);
+                        Button check = findViewById(i+10);
                         if (check.getText().equals(temp.getText()))
                         {
                             if (!check.isEnabled())
@@ -215,7 +231,7 @@ public class GameActivity extends AppCompatActivity {
 
                 for (int i = 0; i < numbers.length; i++)
                 {
-                    Button temp = (Button)findViewById(i);
+                    Button temp = findViewById(i);
                     if (temp.getText().equals(""))
                     {
                         Toast toast = Toast.makeText(context, "All boxes need to be filled", Toast.LENGTH_SHORT);
@@ -259,14 +275,14 @@ public class GameActivity extends AppCompatActivity {
                 Log.d("eq", equation.toString());
                 try {
                     double resultAnswer = (double)engine.eval(equation.toString());
-                    Button myResult = (Button)findViewById(R.id.result);
+                    Button myResult = findViewById(R.id.result);
 
                     if (resultAnswer == result)
                     {
                         Log.d("win", "grats");//todo make things happen when won
                         myResult.setText(String.format("%.2f", resultAnswer));
                         winCount++;
-                        LinearLayout ll = (LinearLayout)findViewById(R.id.pastAnswers);
+                        LinearLayout ll = findViewById(R.id.pastAnswers);
                         ll.removeAllViews();
                         Button pastResult = findViewById(R.id.result);
                         pastResult.setText("");
@@ -275,6 +291,8 @@ public class GameActivity extends AppCompatActivity {
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             showWin();
+                            //handle score when a game is won, extra 0 on hours for database sake
+                            saveScoreToDB(String.format("%02d:%02d:%02d", hours, minutes, seconds));
                         }
                         else
                         {
@@ -291,19 +309,19 @@ public class GameActivity extends AppCompatActivity {
                     else
                     {
                         minutes++;
-                        LinearLayout past = (LinearLayout)findViewById(R.id.pastAnswers);
+                        LinearLayout past = findViewById(R.id.pastAnswers);
                         past.addView(pastAnswer);
                         myResult.setText(String.format("%.2f", resultAnswer));
                     }
                     for (int i = 0; i < numbers.length; i++)
                     {
-                        Button temp = (Button)findViewById(i);
+                        Button temp = findViewById(i);
                         temp.setText("");
                     }
                     for (int i = 0; i < numbers.length + 1; i++)
                     {
                         Log.e("error", ""+i);
-                        Button temp = (Button)findViewById(i+10);
+                        Button temp = findViewById(i+10);
                         temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
                         temp.setEnabled(true);
                     }
@@ -370,10 +388,10 @@ public class GameActivity extends AppCompatActivity {
                 if (!(pos == position))
                 {
                     tempPos = position;
-                    Button temp = (Button)findViewById(pos);
+                    Button temp = findViewById(pos);
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
-                        Button check = (Button)findViewById(i+10);
+                        Button check = findViewById(i+10);
                         if (check.getText().equals(temp.getText()))
                         {
                             if (!check.isEnabled())
@@ -395,7 +413,7 @@ public class GameActivity extends AppCompatActivity {
     @SuppressLint("ResourceAsColor")
     private void generateAnswerBoxes(int difficulty, int size)//do no know what this variable will become
     {//this generates the lowest boxes
-        final LinearLayout boxes = (LinearLayout)findViewById(R.id.answerBoxLayout);
+        final LinearLayout boxes = findViewById(R.id.answerBoxLayout);
         int[] temp = new int[difficulty + size];
         for (int i = 0; i < size; i++)
         {
@@ -483,7 +501,7 @@ public class GameActivity extends AppCompatActivity {
                 equation.append(numbers[i]);
             }
         }
-        Button myResult = (Button) findViewById(R.id.answer);
+        Button myResult = findViewById(R.id.answer);
         //DecimalFormat df = new DecimalFormat("#,##");
         try {
             result = (double)engine.eval(equation.toString());
@@ -495,6 +513,79 @@ public class GameActivity extends AppCompatActivity {
             myResult.setText(e.getMessage());
         }
         Log.d("answer", equation.toString());
+    }
+
+    //run while you can
+    private void saveScoreToDB(final String score){
+        if(user!= null){
+            final String scoreString = buildScorestring();
+            DocumentReference checkScore = db.collection("users").document(user.getEmail());
+            checkScore.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful()){
+                        String currHigh;
+                        if(task.getResult().get(scoreString) != null){ //check if user already have a score
+                            currHigh = task.getResult().get(scoreString).toString();
+                            int compare = score.compareToIgnoreCase(currHigh);
+                            Log.d("saveScore", String.valueOf(compare));
+                            if(compare < 0){   //true if it is new highscore, scary but it works
+                                Map<String, Object> userscore = new HashMap<String, Object>();
+                                userscore.put(scoreString, score);
+                                Log.d("saveScore", "New highscore");
+                                db.collection("users").document(user.getEmail()).set(userscore, SetOptions.merge());
+                            }
+                            else{ // else its not a new highscore, dont replace in DB
+                                Log.d("saveScore", "Not new highscore");
+                            }
+                        }
+                        else{ //user dont have a score, add the one user got
+                            Map<String, Object> userscore = new HashMap<String, Object>();
+                            userscore.put(scoreString, score);
+                            db.collection("users").document(user.getEmail()).set(userscore, SetOptions.merge());
+                            Log.d("saveScore", "Score did not exist, add");
+                        }
+                    }
+                    else{
+                        Log.d("saveScore", task.getException().getMessage());
+                    }
+                }
+            }));
+            Log.d("SCORE", score);
+
+        }
+    }
+
+    //builds a string needed for database call,
+    // properties in DB have special string to identify mode/level
+    private String buildScorestring(){
+        String scoreString;
+        String ops = "";
+        for (int i = 0; i < operators.length; i++){
+            ops = ops.concat(operators[i]);
+        }
+        if(ops.contains("+") && ops.contains("-") && !ops.contains("/")){
+            scoreString = "+−_";
+        }
+        else if(ops.contains("*") && ops.contains("/") && !ops.contains("+")){
+            scoreString = "×÷_";
+        }
+        else{
+            scoreString = "+×−÷_";
+        }
+        switch (difficulty){
+            case 1:
+                scoreString = scoreString.concat("easy_score");
+                break;
+            case 2 :
+                scoreString = scoreString.concat("normal_score");
+                break;
+            case 3:
+                scoreString = scoreString.concat("hard_score");
+                break;
+        }
+        Log.d("SCORESTRING", scoreString);
+        return scoreString;
     }
 }
 

@@ -19,12 +19,24 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class  MainActivity extends AppCompatActivity {
     private Button Guest_button;
@@ -34,6 +46,7 @@ public class  MainActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN = 2;
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthListener;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
     protected void onStart() {
@@ -58,7 +71,7 @@ public class  MainActivity extends AppCompatActivity {
             }
         };
 
-        loginbtn = (SignInButton) findViewById(R.id.sign_in_button);
+        loginbtn = findViewById(R.id.sign_in_button);
         loginbtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -66,7 +79,7 @@ public class  MainActivity extends AppCompatActivity {
             }
         });
 
-        Guest_button = (Button) findViewById(R.id.button3);
+        Guest_button = findViewById(R.id.button3);
         Guest_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -74,7 +87,7 @@ public class  MainActivity extends AppCompatActivity {
             }
         });
 
-        exit_button = (ImageButton) findViewById(R.id.imageButton9);
+        exit_button = findViewById(R.id.imageButton9);
         exit_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -130,6 +143,7 @@ public class  MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            addUserToDB(user); //add user when login
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -139,6 +153,47 @@ public class  MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    //adds a user to db if it does not exist
+    public void addUserToDB(FirebaseUser user){
+        DocumentReference check = db.collection("users").document(user.getEmail());
+        final String mail = user.getEmail();
+        final String displayname = user.getDisplayName();
+        check.get().addOnCompleteListener((new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    if(task.getResult().exists()){
+                        //check if user exists by looking if we got result from db
+                        Log.d("User add", "User already exist");
+                    }
+                    else{
+                        //we did not get result for db => user does not exist, add user
+                        Log.d("User add", "User does not exist, lets add");
+                        Map<String, Object> newuser = new HashMap<String,Object>();
+                        newuser.put("displayname", displayname);
+                        newuser.put("gmail", mail);
+                        db.collection("users").document(mail).set(newuser)
+                                .addOnSuccessListener((new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d("User add", "User got added");
+                                    }
+                                }))
+                                .addOnFailureListener((new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("User add", "User NOT added");
+                                    }
+                                }));
+                    }
+                }
+                else{
+                    Log.d("User add", "Database call not successful");
+                }
+            }
+        }));
     }
 
 

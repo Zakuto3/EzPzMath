@@ -18,7 +18,7 @@ public class LevelsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_levels);
         operators = getIntent().getExtras().getStringArray("operators");
-        Level_back_button = (ImageButton) findViewById(R.id.imageButton9);
+        Level_back_button = findViewById(R.id.imageButton9);
         Level_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

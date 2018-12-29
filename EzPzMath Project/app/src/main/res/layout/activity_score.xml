@@ -157,28 +157,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot1"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot1"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username1"
+                            android:tag="username1"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime1"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime1"
+                            android:tag="usertime1"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg1"
                             android:layout_width="wrap_content"
@@ -190,6 +196,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg1"
+                            android:tag="scoreimg1"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -202,28 +209,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot2"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot2"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username2"
+                            android:tag="username2"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime2"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime2"
+                            android:tag="usertime2"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg2"
                             android:layout_width="wrap_content"
@@ -235,6 +248,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg2"
+                            android:tag="scoreimg2"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -247,28 +261,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot3"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot3"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username3"
+                            android:tag="username3"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime3"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime3"
+                            android:tag="usertime3"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg3"
                             android:layout_width="wrap_content"
@@ -280,6 +300,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg3"
+                            android:tag="scoreimg3"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -292,28 +313,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot4"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot4"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username4"
+                            android:tag="username4"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime4"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime4"
+                            android:tag="usertime4"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg4"
                             android:layout_width="wrap_content"
@@ -325,6 +352,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg4"
+                            android:tag="scoreimg4"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -337,28 +365,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot5"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot5"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username5"
+                            android:tag="username5"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime5"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime5"
+                            android:tag="usertime5"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg5"
                             android:layout_width="wrap_content"
@@ -370,6 +404,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg5"
+                            android:tag="scoreimg5"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -382,28 +417,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot6"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot6"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username6"
+                            android:tag="username6"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime6"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime6"
+                            android:tag="usertime6"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg6"
                             android:layout_width="wrap_content"
@@ -415,6 +456,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg6"
+                            android:tag="scoreimg6"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -427,28 +469,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/your_place_spot7"
-                            android:layout_width="wrap_content"
+                            android:tag="your_place_spot7"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/username7"
+                            android:tag="username7"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/your_place_spot7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/usertime7"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/usertime7"
+                            android:tag="usertime7"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/scoreimg7"
                             android:layout_width="wrap_content"
@@ -460,6 +508,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/scoreimg7"
+                            android:tag="scoreimg7"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -481,28 +530,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot1"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot1"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername1"
+                            android:tag="topusername1"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot1"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime1"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime1"
+                            android:tag="topusertime1"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg1"
                             android:layout_width="wrap_content"
@@ -514,6 +569,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg1"
+                            android:tag="topscoreimg1"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -526,28 +582,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot2"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot2"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername2"
+                            android:tag="topusername2"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot2"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime2"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime2"
+                            android:tag="topusertime2"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg2"
                             android:layout_width="wrap_content"
@@ -559,6 +621,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg2"
+                            android:tag="topscoreimg2"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -571,28 +634,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot3"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot3"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername3"
+                            android:tag="topusername3"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot3"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime3"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime3"
+                            android:tag="topusertime3"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg3"
                             android:layout_width="wrap_content"
@@ -604,6 +673,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg3"
+                            android:tag="topscoreimg3"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -616,28 +686,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot4"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot4"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername4"
+                            android:tag="topusername4"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot4"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime4"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime4"
+                            android:tag="topusertime4"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg4"
                             android:layout_width="wrap_content"
@@ -649,6 +725,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg4"
+                            android:tag="topuserimg4"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -661,28 +738,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot5"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot5"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername5"
+                            android:tag="topusername5"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot5"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime5"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime5"
+                            android:tag="topusertime5"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg5"
                             android:layout_width="wrap_content"
@@ -694,6 +777,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg5"
+                            android:tag="topscoreimg5"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -706,28 +790,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot6"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot6"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername6"
+                            android:tag="topusername6"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot6"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime6"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime6"
+                            android:tag="topusertime6"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg6"
                             android:layout_width="wrap_content"
@@ -739,6 +829,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg6"
+                            android:tag="topscoreimg6"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -751,28 +842,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot7"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot7"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername7"
+                            android:tag="topusername7"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot7"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime7"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime7"
+                            android:tag="topusertime7"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg7"
                             android:layout_width="wrap_content"
@@ -784,6 +881,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg7"
+                            android:tag="topscoreimg7"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -796,28 +894,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot8"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot8"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername8"
+                            android:tag="topusername8"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot8"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime8"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime8"
+                            android:tag="topusertime8"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg8"
                             android:layout_width="wrap_content"
@@ -829,6 +933,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg8"
+                            android:tag="topscoreimg8"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -841,28 +946,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot9"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot9"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername9"
+                            android:tag="topusername9"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot9"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime9"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime9"
+                            android:tag="topusertime9"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg9"
                             android:layout_width="wrap_content"
@@ -874,6 +985,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg9"
+                            android:tag="topscoreimg9"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
@@ -886,28 +998,34 @@
                         android:layout_height="33dp">
                         <TextView
                             android:id="@+id/top_spot10"
-                            android:layout_width="wrap_content"
+                            android:tag="top_spot10"
+                            android:layout_width="20dp"
                             android:layout_height="match_parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             android:text="@string/no_entry_score"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="15dp"
                             android:textColor="#266352"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusername10"
+                            android:tag="topusername10"
                             android:paddingTop="6dp"
-                            android:layout_marginStart="20dp"
+                            android:layout_marginStart="5dp"
                             app:layout_constraintLeft_toRightOf="@id/top_spot10"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            app:layout_constraintRight_toLeftOf="@id/topusertime10"
+                            android:singleLine="true"
                             android:layout_height="match_parent"
                             android:textColor="#266352"
                             android:text="@string/no_entry_score"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="5dp"
                             android:fontFamily="@font/joyfultheatre"/>
                         <TextView
                             android:id="@+id/topusertime10"
+                            android:tag="topusertime10"
                             android:paddingTop="6dp"
                             app:layout_constraintRight_toLeftOf="@id/topscoreimg10"
                             android:layout_width="wrap_content"
@@ -919,6 +1037,7 @@
                             android:fontFamily="@font/joyfultheatre"/>
                         <ImageView
                             android:id="@+id/topscoreimg10"
+                            android:tag="topscoreimg10"
                             android:src="@drawable/score_image"
                             app:layout_constraintRight_toRightOf="parent"
                             android:layout_width="20dp"
