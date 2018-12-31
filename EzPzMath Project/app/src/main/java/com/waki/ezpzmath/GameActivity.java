@@ -392,6 +392,7 @@ public class GameActivity extends AppCompatActivity {
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
                         Button check = findViewById(i+10);
+                        /*if(check != null)*/
                         if (check.getText().equals(temp.getText()))
                         {
                             if (!check.isEnabled())

@@ -147,11 +147,13 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:id="@+id/your_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="33dp">
@@ -1049,6 +1051,41 @@
                 </LinearLayout>
             </FrameLayout>
         </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/score_loader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/score_tabs"
+            app:layout_constraintTop_toTopOf="@id/scoreboard"
+            app:layout_constraintRight_toRightOf="@id/scoreboard"
+            app:layout_constraintLeft_toLeftOf="@id/scoreboard"
+            android:indeterminateDrawable="@drawable/score_loading"
+            />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/no_score_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/score_tabs"
+            app:layout_constraintTop_toTopOf="@id/scoreboard"
+            app:layout_constraintRight_toRightOf="@id/scoreboard"
+            app:layout_constraintLeft_toLeftOf="@id/scoreboard"
+            android:text="You have no score in this mode\nFinish a match to get one."
+            android:textAlignment="center"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/no_user_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/score_tabs"
+            app:layout_constraintTop_toTopOf="@id/scoreboard"
+            app:layout_constraintRight_toRightOf="@id/scoreboard"
+            app:layout_constraintLeft_toLeftOf="@id/scoreboard"
+            android:text="You are not logged in\nLog in to see your score"
+            android:textAlignment="center"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/score_tabs"

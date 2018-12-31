@@ -1,27 +1,20 @@
 package com.waki.ezpzmath;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,11 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -52,6 +41,10 @@ public class ScoreActivity extends AppCompatActivity {
     Spinner modeSpin;
     ArrayAdapter<String> levelAdapter;
     Spinner levelSpin;
+    ProgressBar scoreLoader;
+    TextView noScoreText;
+    TextView noUserText;
+    boolean youScoreIsLoaded = false;
     private ImageButton score_back_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -88,6 +81,9 @@ public class ScoreActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        noScoreText = findViewById(R.id.no_score_text);
+        noUserText = findViewById(R.id.no_user_text);
+        scoreLoader = findViewById(R.id.score_loader);
         levelSpin = findViewById(R.id.spinner2);
         String[] levels = new String[] {"Easy", "Normal", "Hard"};
         levelAdapter = new ArrayAdapter<String>(this, R.layout.score_spinner_text, levels);
@@ -107,6 +103,7 @@ public class ScoreActivity extends AppCompatActivity {
         modeSpin.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                scoreLoader.setVisibility(View.VISIBLE);
                 setScoreboards();
             }
             @Override
@@ -115,6 +112,7 @@ public class ScoreActivity extends AppCompatActivity {
         levelSpin.setOnItemSelectedListener((new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                scoreLoader.setVisibility(View.VISIBLE);
                 setScoreboards();
             }
             @Override
@@ -134,17 +132,36 @@ public class ScoreActivity extends AppCompatActivity {
                     case 0:
                         if(currentScoreTab != 0) {
                             top10.setVisibility(View.GONE);
-                            yourScore.setVisibility(View.VISIBLE);
+                            if(youScoreIsLoaded){
+                                yourScore.setVisibility(View.VISIBLE);
+                                yourScore.setAnimation( inFromLeftAnimation() );
+                            }
+                            else if(user == null){
+                                noUserText.setVisibility(View.VISIBLE);
+                                yourScore.setVisibility(View.GONE);
+                                scoreLoader.setVisibility(View.GONE);
+                                noScoreText.setVisibility(View.GONE);
+                            }
+                            else{
+                                noUserText.setVisibility(View.GONE);
+                                yourScore.setVisibility(View.GONE);
+                                scoreLoader.setVisibility(View.GONE);
+                                noScoreText.setVisibility(View.VISIBLE);
+                            }
                             top10.setAnimation( outToRightAnimation() );
-                            yourScore.setAnimation( inFromLeftAnimation() );
                             currentScoreTab = 0;
                         }
                         break;
                     case 1:
                         if(currentScoreTab != 1) {
+                            noUserText.setVisibility(View.GONE);
+                            noScoreText.setVisibility(View.GONE);
+                            scoreLoader.setVisibility(View.GONE);
                             yourScore.setVisibility(View.GONE);
                             top10.setVisibility(View.VISIBLE);
-                            yourScore.setAnimation( outToLeftAnimation() );
+                            if(youScoreIsLoaded){
+                                yourScore.setAnimation( outToLeftAnimation() );
+                            }
                             top10.setAnimation( inFromRightAnimation() );
                             currentScoreTab = 1;
                         }
@@ -228,13 +245,18 @@ public class ScoreActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             if(user != null)
                                 setYourPosition(task.getResult(), scoreType);
+                            else if(currentScoreTab == 0){
+                                noScoreText.setVisibility(View.GONE);
+                                noUserText.setVisibility(View.VISIBLE);
+                            }
                             setTopTen(task.getResult(), scoreType);
+                            scoreLoader.setVisibility(View.GONE);
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String mail = document.getData().get("gmail").toString();
-                                Log.d("BUUU", document.getId() + " => " + mail);
+                                Log.d("setScoreboards", document.getId() + " => " + mail);
                             }
                         } else {
-                            Log.w("HUU", "Error getting documents.", task.getException());
+                            Log.w("setScoreboards", "Error getting documents.", task.getException());
                         }
                     }
                 });
@@ -243,13 +265,13 @@ public class ScoreActivity extends AppCompatActivity {
     //sets the "YOU" tab
     public void setYourPosition(QuerySnapshot users, String scoreType){
         clearYourPos();
+        boolean foundUser = false;
         LinearLayout scoreboard = findViewById(R.id.your_place);
         ArrayList<DocumentSnapshot> list = (ArrayList<DocumentSnapshot>) users.getDocuments();
         for(DocumentSnapshot item : list){
             String mail = item.get("gmail").toString();
-            Log.d("DAS MAIL", mail);
+            Log.d("setYourPosition", mail);
             if(mail.equals(user.getEmail())){
-                Toast.makeText(this, mail, Toast.LENGTH_LONG).show();
                 int ind = list.indexOf(item);
                 int viewid = 1;
                 int placeNr;
@@ -270,11 +292,22 @@ public class ScoreActivity extends AppCompatActivity {
                         TextView score = scoreboard.findViewWithTag("usertime"+viewid);
                         score.setText(us.get(scoreType).toString());
                         viewid++;
-                        Log.d("NAMUS", name);
+                        Log.d("setYourPosition", name);
                     }
                 }
+                foundUser = true;
                 break;
             }
+        }
+        if(foundUser){
+            noScoreText.setVisibility(View.GONE);
+            scoreboard.setVisibility(View.VISIBLE);
+            youScoreIsLoaded = true;
+        }
+        else{
+            scoreboard.setVisibility(View.GONE);
+            noScoreText.setVisibility(View.VISIBLE);
+            youScoreIsLoaded = false;
         }
     }
 
@@ -316,9 +349,9 @@ public class ScoreActivity extends AppCompatActivity {
                 Map<String, Object> user = data.getData();
                 String name = user.get("displayname").toString();
                 String score = user.get(scoreType).toString();
-                Log.d("USERNAME", name);
-                Log.d("SCORE", score);
-                Log.d("CURRENT I", "topusername" + i);
+                Log.d("setTopTen", name);
+                Log.d("setTopTen", score);
+                Log.d("setTopTen", "topusername" + i);
                 TextView username = (TextView) top.findViewWithTag("topusername" + i);
                 username.setText(name);
                 TextView spot = (TextView) top.findViewWithTag("top_spot" + i);
@@ -328,6 +361,10 @@ public class ScoreActivity extends AppCompatActivity {
                 i++;
             }
             else break;
+        }
+        if(currentScoreTab == 1){
+            noScoreText.setVisibility(View.GONE);
+            noUserText.setVisibility(View.GONE);
         }
     }
 }
