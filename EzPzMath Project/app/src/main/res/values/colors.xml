@@ -8,4 +8,5 @@
     <color name="background">#66a96b</color>
     <color name="sub_button_bg">#61E858</color>
     <color name="res_answ_text_color">#c5f5c2</color>
+    <color name="unabeld_button">#9DB1AB</color>
 </resources>

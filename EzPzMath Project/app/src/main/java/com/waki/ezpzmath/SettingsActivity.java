@@ -47,10 +47,10 @@ public class SettingsActivity extends AppCompatActivity {
         };
 
         ListViewAdapter listViewAdapter = new ListViewAdapter(this, Titles,Images);
-        settingsListView = (ListView) findViewById(R.id.settings_listView);
+        settingsListView = findViewById(R.id.settings_listView);
         settingsListView.setAdapter(listViewAdapter);
 
-        back_button = (ImageButton) findViewById(R.id.imageButton_setting_back);
+        back_button = findViewById(R.id.imageButton_setting_back);
         back_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -138,8 +138,8 @@ class ListViewAdapter extends ArrayAdapter<String> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.list_view_settings, null,true);
 
-        TextView titlesText = (TextView) rowView.findViewById(R.id.settings_option_titel);
-        ImageView iconImage = (ImageView) rowView.findViewById(R.id.settings_option_image);
+        TextView titlesText = rowView.findViewById(R.id.settings_option_titel);
+        ImageView iconImage = rowView.findViewById(R.id.settings_option_image);
 
         titlesText.setText(titles[position]);
         iconImage.setImageResource(images[position]);

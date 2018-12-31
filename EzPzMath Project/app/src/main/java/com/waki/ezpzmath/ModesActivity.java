@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ModesActivity extends AppCompatActivity {
     private Button first_mode_button;
@@ -25,7 +26,7 @@ public class ModesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modes);
 
-        first_mode_button = (Button) findViewById(R.id.button1);
+        first_mode_button = findViewById(R.id.button1);
         first_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -34,7 +35,7 @@ public class ModesActivity extends AppCompatActivity {
             }
         });
 
-        second_mode_button = (Button) findViewById(R.id.button2);
+        second_mode_button = findViewById(R.id.button2);
         second_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -43,7 +44,7 @@ public class ModesActivity extends AppCompatActivity {
             }
         });
 
-        third_mode_button = (Button) findViewById(R.id.button3);
+        third_mode_button = findViewById(R.id.button3);
         third_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -53,7 +54,7 @@ public class ModesActivity extends AppCompatActivity {
             }
         });
 
-        score_button = (ImageButton) findViewById(R.id.imageButton10);
+        score_button = findViewById(R.id.imageButton10);
         score_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
@@ -61,7 +62,7 @@ public class ModesActivity extends AppCompatActivity {
             }
         });
 
-        Settings_button = (ImageButton) findViewById(R.id.imageButton9);
+        Settings_button = findViewById(R.id.imageButton9);
         Settings_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){

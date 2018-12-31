@@ -32,14 +32,14 @@ public class HowToPlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_how_to_play);
-        back_button = (ImageButton) findViewById(R.id.backButton_howtoplay);
+        back_button = findViewById(R.id.backButton_howtoplay);
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openSettingsActivity();
             }
         });
-        textSwitcher = (TextSwitcher) findViewById(R.id.text_switcher);
+        textSwitcher = findViewById(R.id.text_switcher);
         textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -57,8 +57,8 @@ public class HowToPlayActivity extends AppCompatActivity {
 
 
         textSwitcher.setText("Use navigation buttons to navigate between the pages...");
-        toRight=(Button) findViewById(R.id.right_button);
-        toLeft = (Button) findViewById(R.id.left_button);
+        toRight= findViewById(R.id.right_button);
+        toLeft = findViewById(R.id.left_button);
 
         toRight.setOnClickListener(new View.OnClickListener() {
             @Override

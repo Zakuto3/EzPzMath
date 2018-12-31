@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "862807137429-59ktkf8t3v6papurda0dbo8lfl2sssb7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "eb3097af5b157cb9b2f91a61c412cff84f4c84d5"
+          }
+        },
+        {
           "client_id": "862807137429-8es8eqosai9fkvpq3goecvkj5cdgt4ik.apps.googleusercontent.com",
           "client_type": 3
         }
