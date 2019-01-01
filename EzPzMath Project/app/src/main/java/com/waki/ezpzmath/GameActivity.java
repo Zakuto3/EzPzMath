@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -76,9 +77,10 @@ public class GameActivity extends AppCompatActivity {
         test(size);//will use values sent in from other activities
         if (difficulty <= 2)
         {
-            while (!(result % 1 == 0))
+            while (!((result % 1) == 0))
             {
                 test(size);
+                Log.e("redo", "redone test");
             }
         }
         generateAnswerField(size);
@@ -131,6 +133,7 @@ public class GameActivity extends AppCompatActivity {
 
     public void onDestroy() {
         super.onDestroy();
+        finish();
     }
 
 
@@ -372,7 +375,37 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
         dialog.show();
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitByBackKey();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    protected void exitByBackKey()//if key back is pressed show message
+    {
+
+        AlertDialog alertbox = new AlertDialog.Builder(this)
+                .setMessage("Do you want to exit the current session?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        openModesActivity();
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    }
+                })
+                .show();
+        alertbox.getWindow().setBackgroundDrawableResource(R.color.dialog_color);
+        alertbox.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#c5f5c2"));
+        alertbox.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#c5f5c2"));
     }
 
     public void openModesActivity(){
@@ -392,16 +425,19 @@ public class GameActivity extends AppCompatActivity {
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
                         Button check = findViewById(i+10);
-                        /*if(check != null)*/
-                        if (check.getText().equals(temp.getText()))
+                        if(check != null)//somebody removed this? error if yes
                         {
-                            if (!check.isEnabled())
+                            if (check.getText().equals(temp.getText()))
                             {
-                                check.setEnabled(true);
-                                check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
-                                break;
+                                if (!check.isEnabled())
+                                {
+                                    check.setEnabled(true);
+                                    check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
+                                    break;
+                                }
                             }
                         }
+
                     }
                     temp.setText("");
                     position = pos;
