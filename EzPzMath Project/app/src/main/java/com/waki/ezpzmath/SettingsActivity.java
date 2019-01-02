@@ -20,8 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class SettingsActivity extends AppCompatActivity {
-    String [] Titles = {"How to play?", "Change password", "Music", "Remove ADS", "Logout"};
-    Integer [] Images ={R.drawable.howtoplay,R.drawable.password,R.drawable.settings_sound_on, R.drawable.remove_ads,R.drawable.logout};
+    String [] Titles = {"How to play?", "Music", "Remove ADS", "Logout"};
+    Integer [] Images ={R.drawable.howtoplay,R.drawable.settings_sound_on, R.drawable.remove_ads,R.drawable.logout};
     ListView settingsListView;
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -65,18 +65,14 @@ public class SettingsActivity extends AppCompatActivity {
                     openHowToPlayActivity();
                 }
                 else if(position == 1){
-                    //Change Password
-                    Toast.makeText(getApplicationContext(),"Change Password",Toast.LENGTH_SHORT).show();
-
-                }else if(position == 2){
                     //sound on/off
                     Toast.makeText(getApplicationContext(),"sound on/off",Toast.LENGTH_SHORT).show();
 
-                }else if(position == 3){
+                }else if(position == 2){
                     //remove ADS
                     Toast.makeText(getApplicationContext(),"remove ADS",Toast.LENGTH_SHORT).show();
 
-                }else if(position == 4){
+                }else if(position == 3){
                     mAuthListener = new FirebaseAuth.AuthStateListener() { //should consider this to be outside switch and under onAuthStateChanged
                         @Override
                         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
