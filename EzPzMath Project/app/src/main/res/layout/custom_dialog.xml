@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="230dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/curve_shap">
+
+    <TextView
+        android:id="@+id/txt_dia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/joyfultheatre"
+        android:text="Great job!"
+        android:textColor="@color/textcolor"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@id/winning_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/winning_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="@id/Your_Time_Layout"
+        app:layout_constraintEnd_toEndOf="@id/txt_dia"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@id/txt_dia"
+        app:layout_constraintTop_toBottomOf="@id/txt_dia"
+        app:srcCompat="@drawable/win"
+        android:scaleType="centerCrop"/>
+    <LinearLayout
+        android:id="@+id/Your_Time_Layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/winning_image"
+        app:layout_constraintBottom_toTopOf="@id/buttons_layout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <TextView
+            android:id="@+id/your_time_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Time"
+            android:fontFamily="@font/joyfultheatre"
+            android:textSize="18dp"
+            android:textColor="@color/textcolor"/>
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="00:00:00"
+            android:textSize="18dp"
+            android:fontFamily="@font/joyfultheatre"
+            android:textColor="@color/textcolor"
+            android:layout_marginLeft="8dp"/>
+    </LinearLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        app:layout_constraintTop_toBottomOf="@id/Your_Time_Layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/Your_Time_Layout"
+        app:layout_constraintEnd_toEndOf="@id/Your_Time_Layout"
+        android:id="@+id/buttons_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp">
+
+        <ImageButton
+            android:id="@+id/btn_home"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/rounded_button"
+            app:srcCompat="@drawable/home"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/btn_again"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/btn_again"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="30dp"
+            app:srcCompat="@drawable/again"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rounded_button"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/btn_home"/>
+    </android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

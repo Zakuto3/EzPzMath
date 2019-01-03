@@ -2,10 +2,14 @@ package com.waki.ezpzmath;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +23,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -55,11 +60,11 @@ public class GameActivity extends AppCompatActivity {
     boolean boxPressed = false;
     double result;
     Random rnd = new Random();
-    int seconds = 0, minutes = 0, hours = 0; //time so it can be accessed out of timer
+    public int seconds = 0, minutes = 0, hours = 0; //time so it can be accessed out of timer
     int difficulty = 3;
     String[] operators = { "+", "*", "-", "/" };//name says everything
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
-    int winCount=0;
+    public int winCount=0;
     Timer t = new Timer();
     ImageButton backButton;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -293,9 +298,10 @@ public class GameActivity extends AppCompatActivity {
                         count.setText( winCount + "/5");
                         if (winCount == 5)//how many wins it takes to win the game
                         {
-                            showWin();
                             //handle score when a game is won, extra 0 on hours for database sake
                             saveScoreToDB(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+                            showWin();
+
                         }
                         else
                         {
@@ -338,7 +344,13 @@ public class GameActivity extends AppCompatActivity {
 
     private void showWin()//endgame screen
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        //show the custom dialog that have been designed to matxh with the prototype...
+        CustomDialogClass cdd = new CustomDialogClass(this, seconds, minutes, hours, operators, difficulty);
+        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        t.cancel();
+        cdd.show();
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("WinScreen");
         t.cancel();
@@ -376,7 +388,7 @@ public class GameActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
-        dialog.show();
+        dialog.show();*/
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -390,7 +402,7 @@ public class GameActivity extends AppCompatActivity {
     protected void exitByBackKey()//if key back is pressed show message
     {
 
-        AlertDialog alertbox = new AlertDialog.Builder(this)
+        final AlertDialog alertbox = new AlertDialog.Builder(this)
                 .setMessage("Do you want to exit the current session?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -406,6 +418,7 @@ public class GameActivity extends AppCompatActivity {
         alertbox.getWindow().setBackgroundDrawableResource(R.color.dialog_color);
         alertbox.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#c5f5c2"));
         alertbox.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#c5f5c2"));
+
     }
 
     public void openModesActivity(){
@@ -483,6 +496,9 @@ public class GameActivity extends AppCompatActivity {
                 boxes.addView(tempView);
             }
         }
+        Button submit = findViewById(R.id.submit_button);
+        submit.setOnClickListener(getOnSubmit(this));
+        //////////////////////////////////////////////////////////
         /*Button submit = new Button(this);
         submit.setText("✓");
         submit.setBackgroundColor(Color.parseColor("#55cb4d"));
@@ -492,8 +508,7 @@ public class GameActivity extends AppCompatActivity {
         boxes.addView(submit);
         submit.getLayoutParams().height = 160;
         submit.getLayoutParams().width = 150;*/
-        Button submit = findViewById(R.id.submit_button);
-        submit.setOnClickListener(getOnSubmit(this));
+
 
     }
 
