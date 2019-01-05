@@ -7,18 +7,21 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -153,6 +156,7 @@ public class GameActivity extends AppCompatActivity {
             tempButton.setText("");
             tempButton.setId(i);
             tempButton.setOnClickListener(getOnRemove(i));
+            tempButton.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
             answers.addView(tempButton);
             tempButton.getLayoutParams().height = 150;
             tempButton.getLayoutParams().width = 150;
@@ -206,7 +210,10 @@ public class GameActivity extends AppCompatActivity {
                 }
                 temp.setText(button.getText());
                 temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
+                temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                 button.setEnabled(false);
+                button.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
+                button.setTextColor(Color.parseColor("#789B8F"));
                 if (position < numbers.length - 1 && !boxPressed)
                 {
                     position++;
@@ -446,6 +453,7 @@ public class GameActivity extends AppCompatActivity {
                                 {
                                     check.setEnabled(true);
                                     check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
+                                    check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                                     break;
                                 }
                             }
@@ -453,6 +461,7 @@ public class GameActivity extends AppCompatActivity {
 
                     }
                     temp.setText("");
+                    temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
                     position = pos;
                     boxPressed = true;
                 }
@@ -482,6 +491,8 @@ public class GameActivity extends AppCompatActivity {
             tempButton.setTextColor(tempButton.getContext().getResources().getColor(R.color.textcolor));
             //tempButton.setBackgroundColor(tempButton.getContext().getResources().getColor(R.color.res_answ_text_color));
             tempButton.setGravity(Gravity.CENTER);
+            tempButton.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.game_brick));
+            tempButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
 
             tempButton.setOnClickListener(getOnClick(tempButton));
