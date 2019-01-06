@@ -702,7 +702,7 @@ public class GameActivity extends AppCompatActivity {
      */
     //https://stackoverflow.com/questions/4605527/converting-pixels-to-dp
     public static float convertDpToPixel(float dp, Context context){
-        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return dp * (context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
 
