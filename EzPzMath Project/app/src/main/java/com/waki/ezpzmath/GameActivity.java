@@ -203,6 +203,7 @@ public class GameActivity extends AppCompatActivity {
                             {
                                 check.setEnabled(true);
                                 check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
+                                check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                                 break;
                             }
                         }
@@ -264,6 +265,7 @@ public class GameActivity extends AppCompatActivity {
                     Button tempButton = new Button(context);
                     tempButton.setText(temp.getText());
                     tempButton.setTextColor(tempButton.getContext().getResources().getColor(R.color.textcolor));
+                    tempButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                     pastAnswer.addView(tempButton);
                     tempButton.getLayoutParams().height = 150;
                     tempButton.getLayoutParams().width = 150;
@@ -332,6 +334,7 @@ public class GameActivity extends AppCompatActivity {
                     for (int i = 0; i < numbers.length; i++)
                     {
                         Button temp = findViewById(i);
+                        temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
                         temp.setText("");
                     }
                     for (int i = 0; i < numbers.length + 1; i++)
@@ -339,6 +342,7 @@ public class GameActivity extends AppCompatActivity {
                         Log.e("error", ""+i);
                         Button temp = findViewById(i+10);
                         temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
+                        temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                         temp.setEnabled(true);
                     }
                     position = 0;
