@@ -17,9 +17,11 @@ import android.os.Message;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -29,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,6 +96,7 @@ public class GameActivity extends AppCompatActivity {
         }
         generateAnswerField(size);
         generateAnswerBoxes(1,size);
+        manageDots();
         TimerTask task = new TimerTask(){
             @Override
             public void run() {
@@ -305,6 +309,7 @@ public class GameActivity extends AppCompatActivity {
                         pastResult.setText("");
                         TextView count = findViewById(R.id.wincount);
                         count.setText( winCount + "/5");
+                        manageDots();
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             //handle score when a game is won, extra 0 on hours for database sake
@@ -653,6 +658,51 @@ public class GameActivity extends AppCompatActivity {
         }
         Log.d("SCORESTRING", scoreString);
         return scoreString;
+    }
+
+    private void manageDots(){
+        ConstraintLayout dots = findViewById(R.id.stage_dots);
+        int bigdot = (int)convertDpToPixel(12, this);
+        int smalldot = (int)convertDpToPixel(10, this);
+        ImageView dot;
+        for(int i = 1; i <= 5; i++){
+            dot = dots.findViewWithTag("stage_"+i);
+            if(dot != null){
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) dot.getLayoutParams();
+                if(i <= winCount){
+                    dot.setBackgroundDrawable(getResources().getDrawable(R.drawable.completed_dot));
+                    params.width = smalldot;
+                    params.height = smalldot;
+                    params.setMargins(0,0,0,0);
+                }
+                else if(i == (winCount+1)){
+                    dot.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_dot));
+                    params.width = bigdot;
+                    params.height = bigdot;
+                    params.setMargins(0,0,0,(int)convertDpToPixel(2, this));
+                }
+                else {
+                    dot.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_dot));
+                    params.width = smalldot;
+                    params.height = smalldot;
+                    params.setMargins(0,0,0,0);
+                }
+                dot.setLayoutParams(params);
+
+            }
+        }
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    //https://stackoverflow.com/questions/4605527/converting-pixels-to-dp
+    public static float convertDpToPixel(float dp, Context context){
+        return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
 
