@@ -1,34 +1,24 @@
 package com.waki.ezpzmath;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,8 +33,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
@@ -86,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
         TextView count = findViewById(R.id.wincount);
         count.setText(winCount + "/5");
         test(size);//will use values sent in from other activities
-        if (difficulty <= 2)
+        if (difficulty < 3)
         {
             while (!((result % 1) == 0))
             {
@@ -197,7 +185,6 @@ public class GameActivity extends AppCompatActivity {
                 button.setTextColor(button.getContext().getResources().getColor(R.color.unabeld_button));
                 if (!temp.getText().equals(""))
                 {
-
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
                         Button check = findViewById(i+10);
@@ -234,7 +221,6 @@ public class GameActivity extends AppCompatActivity {
                              break;
                         }
                     }
-                    boxPressed = false;
                 }
             }
         };
@@ -300,7 +286,7 @@ public class GameActivity extends AppCompatActivity {
 
                     if (resultAnswer == result)
                     {
-                        Log.d("win", "grats");//todo make things happen when won
+                        Log.d("win", "grats");
                         myResult.setText(String.format("%.2f", resultAnswer));
                         winCount++;
                         LinearLayout ll = findViewById(R.id.pastAnswers);
@@ -324,14 +310,31 @@ public class GameActivity extends AppCompatActivity {
                             answerBoxes.removeAllViews();
                             answerButtons.removeAllViews();
                             int size = difficulty + 2;
-                            test(size);//will use values sent in from other activities
+                            if (difficulty < 3)
+                            {
+                                while (!((result % 1) == 0))
+                                {
+                                    test(size);
+                                    Log.e("redo", "redone test");
+                                }
+                            }
                             generateAnswerField(size);
                             generateAnswerBoxes(1 ,size);
                         }
                     }
                     else
                     {
-                        minutes++;
+                        seconds += 20;
+                        if (seconds > 60)
+                        {
+                            seconds = seconds % 60;
+                            minutes++;
+                        }
+                        if (minutes > 60)
+                        {
+                            hours++;
+                            minutes = 0;
+                        }
                         LinearLayout past = findViewById(R.id.pastAnswers);
                         past.addView(pastAnswer);
                         myResult.setText(String.format("%.2f", resultAnswer));
@@ -442,44 +445,36 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    View.OnClickListener getOnRemove(final int pos)
-    {
-        return new View.OnClickListener(){
+    View.OnClickListener getOnRemove(final int pos) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(pos == position))
-                {
-                    tempPos = position;
-                    Button temp = findViewById(pos);
-                    for (int i = 0; i < numbers.length+difficulty; i++)
-                    {
-                        Button check = findViewById(i+10);
-                        if(check != null)//somebody removed this? error if yes
-                        {
-                            if (check.getText().equals(temp.getText()))
-                            {
-                                if (!check.isEnabled())
-                                {
-                                    check.setEnabled(true);
-                                    check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
-                                    check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
-                                    break;
-                                }
+                tempPos = position;
+                Button temp = findViewById(pos);
+                for (int i = 0; i < numbers.length + difficulty; i++) {
+                    Button check = findViewById(i + 10);
+                    if (check != null) {
+                        if (check.getText().equals(temp.getText())) {
+                            if (!check.isEnabled()) {
+                                check.setEnabled(true);
+                                check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
+                                check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
+                                break;
                             }
                         }
-
                     }
-                    temp.setText("");
-                    temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
-                    position = pos;
-                    boxPressed = true;
+
                 }
+                temp.setText("");
+                temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
+                position = pos;
+                boxPressed = true;
             }
         };
     }
 
     @SuppressLint("ResourceAsColor")
-    private void generateAnswerBoxes(int difficulty, int size)//do no know what this variable will become
+    private void generateAnswerBoxes(int difficulty, int size)
     {//this generates the lowest boxes
         final LinearLayout boxes = findViewById(R.id.answerBoxLayout);
         int[] temp = new int[difficulty + size];
@@ -489,7 +484,18 @@ public class GameActivity extends AppCompatActivity {
         }
 
         for (int i = size; i < size + difficulty; i++) {
-            temp[i] = rnd.nextInt((9-1) + 1) + 1;
+            if(difficulty == 1)
+            {
+                temp[i] = rnd.nextInt((5-1) + 1) + 1;
+            }
+            else if (difficulty == 2)
+            {
+                temp[i] = rnd.nextInt((7-1) + 1) + 1;
+            }
+            else
+            {
+                temp[i] = rnd.nextInt((9-1) + 1) + 1;
+            }
         }
         shuffleArr(temp);
         for (int i = 0; i < size + difficulty; i++)
@@ -555,11 +561,33 @@ public class GameActivity extends AppCompatActivity {
         StringBuilder equation = new StringBuilder();
         for (int i = 0; i < size; i++)
         {
-            numbers[i] = rnd.nextInt((9-1) + 1) + 1;
+            if(difficulty == 1)
+            {
+                numbers[i] = rnd.nextInt((5-1) + 1) + 1;
+            }
+            else if (difficulty == 2)
+            {
+                numbers[i] = rnd.nextInt((7-1) + 1) + 1;
+            }
+            else
+            {
+                numbers[i] = rnd.nextInt((9-1) + 1) + 1;
+            }
+
         }
+        int divides = 0;
         for (int i = 0; i < size - 1; i++)
         {
             operatorIndex[i] = rnd.nextInt((operators.length));
+            if (operators[operatorIndex[i]].equals("/"))
+            {
+                if (divides >= 2)
+                {
+                    operatorIndex[i] = rnd.nextInt((operators.length - 1));
+                    Log.d("change", "Changed operator");
+                }
+                divides++;
+            }
             Log.d("msg", ""+operators[operatorIndex[i]]);
         }
         for (int i = 0; i < size; i++)
