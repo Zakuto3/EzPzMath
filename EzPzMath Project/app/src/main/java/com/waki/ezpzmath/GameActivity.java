@@ -1,23 +1,16 @@
 package com.waki.ezpzmath;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +21,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -43,8 +35,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
@@ -153,18 +143,25 @@ public class GameActivity extends AppCompatActivity {
     private void generateAnswerField(int size)
     {
         final LinearLayout answers = findViewById(R.id.answerLayout);
+        //ConstraintLayout layout = new ConstraintLayout(this);
+        //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //layout.setLayoutParams(params);
+        //layout.setId(getUniqueId());
+        //layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.single_past_answer));
 
         for (int i = 0; i < size; i++)
         {
             Button tempButton = new Button(this);
             tempButton.setText("");
-            tempButton.setId(i);
             tempButton.setOnClickListener(getOnRemove(i));
             tempButton.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
             answers.addView(tempButton);
             tempButton.getLayoutParams().height = 150;
             tempButton.getLayoutParams().width = 150;
-            if (i < size - 1)
+            tempButton.setId(i);
+            tempButton.setTag("nr_"+i);
+
+            if (i < (size - 1))
             {
                 TextView tempView = new TextView(this);
                 if(operators[operatorIndex[i]].equals("/")) {
@@ -179,12 +176,16 @@ public class GameActivity extends AppCompatActivity {
                 else {
                     tempView.setText(operators[operatorIndex[i]]);
                 }
-                tempView.setTextSize(30);
                 tempView.setTextColor(Color.parseColor("#c5f5c2"));
-                tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+                tempView.setTextSize(30);
+                tempView.setTag("operator_"+i);
+                tempView.setId(getUniqueId());
+                //tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
                 answers.addView(tempView);
             }
         }
+        //answers.addView(layout);
+        //setConstraints(layout, answers, size);
     }
 
     View.OnClickListener getOnClick(final Button button)
@@ -246,8 +247,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 StringBuilder equation = new StringBuilder();
-                LinearLayout pastAnswer = new LinearLayout(context);
-
+                //LinearLayout pastAnswer = new LinearLayout(context);
+                ConstraintLayout pastAnswer = new ConstraintLayout(context);
+                //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                pastAnswer.setId(getUniqueId());
+                //params.setMargins(0,0,0,20);
+                //pastAnswer.setLayoutParams(params);
+                pastAnswer.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.single_past_answer));
+                pastAnswer.setPadding(20,20,20,20);
 
                 for (int i = 0; i < numbers.length; i++)
                 {
@@ -273,6 +280,8 @@ public class GameActivity extends AppCompatActivity {
                     pastAnswer.addView(tempButton);
                     tempButton.getLayoutParams().height = 150;
                     tempButton.getLayoutParams().width = 150;
+                    tempButton.setId(getUniqueId());
+                    tempButton.setTag("nr_"+i);
                     if (i < numbers.length - 1)
                     {
                         TextView tempView = new TextView(context);
@@ -289,6 +298,9 @@ public class GameActivity extends AppCompatActivity {
                             tempView.setText(operators[operatorIndex[i]]);
                         }
                         tempView.setTextColor(Color.parseColor("#c5f5c2"));
+                        tempView.setTextSize(30);
+                        tempView.setTag("operator_"+i);
+                        tempView.setId(getUniqueId());
                         pastAnswer.addView(tempView);
                     }
 
@@ -334,6 +346,7 @@ public class GameActivity extends AppCompatActivity {
                         minutes++;
                         LinearLayout past = findViewById(R.id.pastAnswers);
                         past.addView(pastAnswer);
+                        setConstraints(pastAnswer, past, numbers.length);
                         myResult.setText(String.format("%.2f", resultAnswer));
                     }
                     for (int i = 0; i < numbers.length; i++)
@@ -356,6 +369,53 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    int getUniqueId(){
+        Random rand = new Random();
+        int id;
+        while (findViewById(id = rand.nextInt(Integer.MAX_VALUE) + 1) != null);
+        return id;
+    }
+
+    void setConstraints(ConstraintLayout row, LinearLayout pastAnswersLayout, int length){
+        ConstraintSet set = new ConstraintSet();
+        TextView operator;
+        Button number;
+        set.clone(row);
+        if(pastAnswersLayout != null){
+            set.connect(row.getId(), ConstraintSet.LEFT, pastAnswersLayout.getId(), ConstraintSet.LEFT);
+            set.connect(row.getId(), ConstraintSet.RIGHT, pastAnswersLayout.getId(), ConstraintSet.RIGHT);
+        }
+        for(int i = 0; i < length; i++){
+            number = row.findViewWithTag("nr_"+i);
+            if(i == 0){
+                operator = row.findViewWithTag("operator_"+i);
+                set.connect(operator.getId(), ConstraintSet.LEFT, number.getId(), ConstraintSet.RIGHT);
+                set.connect(number.getId(), ConstraintSet.LEFT, row.getId(), ConstraintSet.LEFT);
+                set.connect(number.getId(), ConstraintSet.RIGHT, operator.getId(), ConstraintSet.LEFT);
+                //Log.d("setConstraints", "IF - "+number.getId()+ " operator = "+operator.getId());
+            }
+            else if(i == (length-1)){
+                operator = row.findViewWithTag("operator_"+(i-1));
+                set.connect(operator.getId(), ConstraintSet.RIGHT, number.getId(), ConstraintSet.LEFT);
+                set.connect(number.getId(), ConstraintSet.LEFT, operator.getId(), ConstraintSet.RIGHT);
+                set.connect(number.getId(), ConstraintSet.RIGHT, row.getId(), ConstraintSet.RIGHT);
+                //Log.d("setConstraints", "ELSE IF - "+number.getId()+ " operator = "+operator.getId());
+            }
+            else{
+                operator = row.findViewWithTag("operator_"+i);
+                set.connect(operator.getId(), ConstraintSet.LEFT, number.getId(), ConstraintSet.RIGHT);
+                set.connect(number.getId(), ConstraintSet.RIGHT, operator.getId(), ConstraintSet.LEFT);
+                operator = row.findViewWithTag("operator_"+(i-1));
+                set.connect(operator.getId(), ConstraintSet.RIGHT, number.getId(), ConstraintSet.LEFT);
+                set.connect(number.getId(), ConstraintSet.LEFT, operator.getId(), ConstraintSet.RIGHT);
+                //Log.d("setConstraints", "ELSE - "+number.getId()+ " operator = "+operator.getId());
+            }
+            set.connect(operator.getId(), ConstraintSet.TOP, row.getId(), ConstraintSet.TOP);
+            set.connect(operator.getId(), ConstraintSet.BOTTOM, row.getId(), ConstraintSet.BOTTOM);
+        }
+        set.applyTo(row);
     }
 
     private void showWin()//endgame screen
