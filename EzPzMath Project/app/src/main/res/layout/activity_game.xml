@@ -145,7 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:gravity="center"
-        android:background="#EAF8E9"
+        android:background="@drawable/past_answers"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toTopOf="@+id/answer_parent_box"
@@ -155,18 +155,14 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="260dp">
             <LinearLayout
                 android:id="@+id/pastAnswers"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:divider="@drawable/past_answer_divider"
+                android:showDividers="middle"
                 android:background="@color/textcolor"
                 android:orientation="vertical" />
         </ScrollView>
