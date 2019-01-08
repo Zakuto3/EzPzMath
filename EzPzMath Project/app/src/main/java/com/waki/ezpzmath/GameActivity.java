@@ -20,7 +20,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -143,6 +142,11 @@ public class GameActivity extends AppCompatActivity {
     private void generateAnswerField(int size)
     {
         final LinearLayout answers = findViewById(R.id.answerLayout);
+        //ConstraintLayout layout = new ConstraintLayout(this);
+        //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //layout.setLayoutParams(params);
+        //layout.setId(getUniqueId());
+        //layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.single_past_answer));
 
         for (int i = 0; i < size; i++)
         {
@@ -315,6 +319,7 @@ public class GameActivity extends AppCompatActivity {
                         TextView count = findViewById(R.id.wincount);
                         count.setText( winCount + "/5");
                         manageDots();
+
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             //handle score when a game is won, extra 0 on hours for database sake
@@ -329,6 +334,7 @@ public class GameActivity extends AppCompatActivity {
                             answerBoxes.removeAllViews();
                             answerButtons.removeAllViews();
                             int size = difficulty + 2;
+                            test(size);
                             if (difficulty < 3)
                             {
                                 while (!((result % 1) == 0))
