@@ -100,6 +100,7 @@ public class GameActivity extends AppCompatActivity {
                 openModesActivity();
             }
         });
+        markPosition();
     }
 
     @Override
@@ -187,6 +188,12 @@ public class GameActivity extends AppCompatActivity {
         //setConstraints(layout, answers, size);
     }
 
+    private void markPosition()
+    {
+        Button btnPosition = findViewById(position);
+        btnPosition.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_game_brick));
+    }
+
     View.OnClickListener getOnClick(final Button button)
     {
         return new View.OnClickListener(){
@@ -234,6 +241,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                 }
+                markPosition();
             }
         };
     }
@@ -383,6 +391,7 @@ public class GameActivity extends AppCompatActivity {
                 } catch (ScriptException e) {
                     Log.e("error", e.getMessage());
                 }
+                markPosition();
             }
         };
     }
@@ -539,9 +548,11 @@ public class GameActivity extends AppCompatActivity {
 
                 }
                 temp.setText("");
-                temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
+                Button prev = findViewById(position);
+                prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                 position = pos;
                 boxPressed = true;
+                markPosition();
             }
         };
     }
