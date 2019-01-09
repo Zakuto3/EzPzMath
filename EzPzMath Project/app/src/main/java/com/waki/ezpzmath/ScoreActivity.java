@@ -1,6 +1,10 @@
 package com.waki.ezpzmath;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -47,40 +51,98 @@ public class ScoreActivity extends AppCompatActivity {
     boolean youScoreIsLoaded = false;
     private ImageButton score_back_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    boolean isPlaying;
+    private boolean mIsBound = false;       //For anything about Music Service have a look on the comments in Main activity and MusicService class
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
 
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
 
+        isPlaying = getIntent().getExtras().getBoolean("isPlaying");
+        mServ = new MusicService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        if(isPlaying) {
+            startService(music);
+        }
+
         score_back_button = findViewById(R.id.imageButton9);
         score_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openModesActivity();
+                openModesActivity(isPlaying);
             }
         });
+    }
+    void doBindService(){
+        if(!mIsBound) {
+            bindService(new Intent(this,MusicService.class),
+                    Scon, Context.BIND_AUTO_CREATE);
+            mIsBound = true;
+        }
+
+    }
+    void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (true) {
-            openModesActivity();
+            openModesActivity(isPlaying);
         } else {
             super.onBackPressed();
         }
     }
 
-    public void openModesActivity(){
+    public void openModesActivity(boolean isPlaying){
         Intent intent = new Intent (this, ModesActivity.class);
+        intent.putExtra("isPlaying", isPlaying);
         startActivity(intent);
 
     }
-
-
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if(!mServ.isPlaying() && isPlaying){
+            mServ.resumeMusic();
+        }
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        mServ.stopMusic();
+        mServ.stopSelf();
+        doUnbindService();
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(mIsBound) {
+            doUnbindService();
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
+        doBindService();
         noScoreText = findViewById(R.id.no_score_text);
         noUserText = findViewById(R.id.no_user_text);
         scoreLoader = findViewById(R.id.score_loader);

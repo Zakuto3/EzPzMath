@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/back"
         android:scaleType="centerCrop"/>
     <ImageButton
-        android:id="@+id/imageButton10"
+        android:id="@+id/imageButton11"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"

@@ -4,15 +4,19 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
@@ -72,6 +76,21 @@ public class GameActivity extends AppCompatActivity {
     ImageButton backButton;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    boolean isPlaying;
+    ImageButton soundBtn;
+    private boolean mIsBound = false;      //For anything about Music Service have a look on the comments in Main activity and MusicService class
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +98,23 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         difficulty = getIntent().getExtras().getInt("difficulty");
         operators = getIntent().getExtras().getStringArray("operators");
+        soundBtn = findViewById(R.id.soundButton_game);
+        isPlaying = getIntent().getExtras().getBoolean("isPlaying");
+
+        setSoundIcon(isPlaying);
+        mServ = new MusicService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        if(isPlaying) {
+            startService(music);
+        }
+
+        soundBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSound();
+            }
+        });
         int size = difficulty + 2;
         TextView count = findViewById(R.id.wincount);
         count.setText(winCount + "/5");
@@ -104,15 +140,152 @@ public class GameActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openModesActivity();
+                openModesActivity(isPlaying);
             }
         });
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        doBindService();
+    }
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if(!mServ.isPlaying() && isPlaying){
+            mServ.resumeMusic();
+        }
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        mServ.stopMusic();
+        mServ.stopSelf();
+        doUnbindService();
+        finish();
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(mIsBound) {
+            doUnbindService();
+        }
+    }
+    public void palySoundEffect(String effect){  //will manage the sound effects
+        if(!isPlaying){
+            return;
+        }
+        final MediaPlayer mPlayer1;
+        final MediaPlayer mPlayer2;
+        final MediaPlayer mPlayer3;
+        final MediaPlayer mPlayer4;
+        final MediaPlayer mPlayer5;
+
+        switch (effect){
+            case "click":
+                mPlayer1 = MediaPlayer.create(this, R.raw.click);
+                mPlayer1.setVolume(100, 100);
+                mPlayer1.start();
+                mPlayer1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                });
+                break;
+            case "unclick":
+                mPlayer2 = MediaPlayer.create(this, R.raw.unclick);
+                mPlayer2.setVolume(100, 100);
+                mPlayer2.start();
+                mPlayer2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                });
+                break;
+            case "wrong":
+                mPlayer3 = MediaPlayer.create(this, R.raw.wrong_answer);
+                mPlayer3.setVolume(100, 100);
+                mPlayer3.start();
+                mPlayer3.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                });
+                break;
+            case "correct":
+                mPlayer4 = MediaPlayer.create(this, R.raw.correct_answer);
+                mPlayer4.setVolume(100, 100);
+                mPlayer4.start();
+                mPlayer4.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                });
+                break;
+            case "win":
+                mPlayer5 = MediaPlayer.create(this, R.raw.winning);
+                mPlayer5.setVolume(100, 100);
+                mPlayer5.start();
+                mPlayer5.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.release();
+                    }
+                });
+                break;
+                default:return;
+        }
+    }
+    public void setSound(){
+        if(mServ.isPlaying()) {
+            mServ.pauseMusic();
+            isPlaying = false;
+            soundBtn.setImageResource(R.drawable.sound_off);
+        }
+        else{
+            mServ.resumeMusic();
+            isPlaying=true;
+            soundBtn.setImageResource(R.drawable.sound_on);
+        }
+    }
+    public void setSoundIcon(boolean isPlaying){
+        if(isPlaying) {
+            soundBtn.setImageResource(R.drawable.sound_on);
+        }
+        else{
+            soundBtn.setImageResource(R.drawable.sound_off);
+        }
+    }
+    void doBindService(){
+        if(!mIsBound) {
+            bindService(new Intent(this,MusicService.class),
+                    Scon, Context.BIND_AUTO_CREATE);
+            mIsBound = true;
+        }
+    }
+
+    void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
     }
 
     @Override
     public void onBackPressed() {
         if (true) {
-            openModesActivity();
+            openModesActivity(isPlaying);
             finish();
         } else {
             super.onBackPressed();
@@ -138,14 +311,6 @@ public class GameActivity extends AppCompatActivity {
             timer.setText(String.format("%d:%02d:%02d", hours, minutes, seconds));
         }
     };
-
-    public void onDestroy() {
-        super.onDestroy();
-        finish();
-    }
-
-
-
     private void generateAnswerField(int size)
     {
         final LinearLayout answers = findViewById(R.id.answerLayout);
@@ -188,7 +353,7 @@ public class GameActivity extends AppCompatActivity {
         return new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                palySoundEffect("click");
                 Button temp = findViewById(position);
                 button.setTextColor(button.getContext().getResources().getColor(R.color.unabeld_button));
                 if (!temp.getText().equals(""))
@@ -208,6 +373,7 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                 }
+
                 temp.setText(button.getText());
                 temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
                 temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
@@ -220,15 +386,18 @@ public class GameActivity extends AppCompatActivity {
                 }
                 if (boxPressed)
                 {
+
                     for (int i = 0; i < numbers.length; i++)
                     {
                         Button pos = findViewById(i);
                         if (pos.getText().equals(""))
                         {
+
                             position = i;
                              break;
                         }
                     }
+
                     boxPressed = false;
                 }
             }
@@ -294,6 +463,7 @@ public class GameActivity extends AppCompatActivity {
 
                     if (resultAnswer == result)
                     {
+                        palySoundEffect("correct");
                         Log.d("win", "grats");//todo make things happen when won
                         myResult.setText(String.format("%.2f", resultAnswer));
                         winCount++;
@@ -306,6 +476,7 @@ public class GameActivity extends AppCompatActivity {
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             //handle score when a game is won, extra 0 on hours for database sake
+                            palySoundEffect("win");
                             saveScoreToDB(String.format("%02d:%02d:%02d", hours, minutes, seconds));
                             showWin();
 
@@ -325,6 +496,7 @@ public class GameActivity extends AppCompatActivity {
                     else
                     {
                         minutes++;
+                        palySoundEffect("wrong");
                         LinearLayout past = findViewById(R.id.pastAnswers);
                         past.addView(pastAnswer);
                         myResult.setText(String.format("%.2f", resultAnswer));
@@ -352,7 +524,7 @@ public class GameActivity extends AppCompatActivity {
     private void showWin()//endgame screen
     {
         //show the custom dialog that have been designed to matxh with the prototype...
-        CustomDialogClass cdd = new CustomDialogClass(this, seconds, minutes, hours, operators, difficulty);
+        CustomDialogClass cdd = new CustomDialogClass(this, seconds, minutes, hours, operators, difficulty, isPlaying);
         cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         t.cancel();
         cdd.show();
@@ -413,7 +585,7 @@ public class GameActivity extends AppCompatActivity {
                 .setMessage("Do you want to exit the current session?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
-                        openModesActivity();
+                        openModesActivity(isPlaying);
                         finish();
                     }
                 })
@@ -428,8 +600,9 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void openModesActivity(){
+    public void openModesActivity(boolean isPlaying){
         Intent intent = new Intent(this, ModesActivity.class);
+        intent.putExtra("isPlaying",isPlaying);
         startActivity(intent);
     }
 
@@ -438,8 +611,10 @@ public class GameActivity extends AppCompatActivity {
         return new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                palySoundEffect("unclick");
                 if (!(pos == position))
                 {
+
                     tempPos = position;
                     Button temp = findViewById(pos);
                     for (int i = 0; i < numbers.length+difficulty; i++)

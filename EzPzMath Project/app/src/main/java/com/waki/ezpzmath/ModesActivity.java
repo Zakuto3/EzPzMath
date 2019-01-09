@@ -1,8 +1,14 @@
 package com.waki.ezpzmath;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.IBinder;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,18 +30,65 @@ public class ModesActivity extends AppCompatActivity {
     private ImageButton score_button;
     private ImageButton Settings_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    boolean isPlaying;
+    private boolean mIsBound = false;       //For anything about Music Service have a look on the comments in Main activity and MusicService class
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
 
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+
+        }
+    };
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(mIsBound) {
+            doUnbindService();
+        }
+    }
+    @Override
+    protected void onStart(){
+        doBindService();
+        super.onStart();
+    }
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if(!mServ.isPlaying() && isPlaying){
+            mServ.resumeMusic();
+        }
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        mServ.stopMusic();
+        mServ.stopSelf();
+        doUnbindService();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modes);
+
+        isPlaying = getIntent().getExtras().getBoolean("isPlaying");
+        mServ = new MusicService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        if(isPlaying) {
+            startService(music);
+        }
 
         first_mode_button = findViewById(R.id.button1);
         first_mode_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
                 String[] operators = {"+", "-"};
-                openLevelsActivity(operators);
+                openLevelsActivity(operators, isPlaying);
             }
         });
 
@@ -44,7 +97,7 @@ public class ModesActivity extends AppCompatActivity {
             @Override
             public void onClick(View V){
                 String[] operators = {"*", "/"};
-                openLevelsActivity(operators);
+                openLevelsActivity(operators, isPlaying);
             }
         });
 
@@ -53,7 +106,7 @@ public class ModesActivity extends AppCompatActivity {
             @Override
             public void onClick(View V){
                 String[] operators = {"+", "-", "*", "/"};
-                openLevelsActivity(operators);
+                openLevelsActivity(operators,isPlaying);
 
             }
         });
@@ -62,7 +115,7 @@ public class ModesActivity extends AppCompatActivity {
         score_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
-                openScoreActivity();
+                openScoreActivity(isPlaying);
             }
         });
 
@@ -70,27 +123,45 @@ public class ModesActivity extends AppCompatActivity {
         Settings_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
-                openSettingsActivity();
+                openSettingsActivity(isPlaying);
             }
         });
         if(user != null) {
             Toast.makeText(this, "Welcome " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
         }
     }
+    void doBindService(){
+        if(!mIsBound) {
+            bindService(new Intent(this,MusicService.class),
+                    Scon, Context.BIND_AUTO_CREATE);
+            mIsBound = true;
+        }
 
-    public void openLevelsActivity(String[] operators){
+    }
+    void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+    public void openLevelsActivity(String[] operators, boolean isPlaying){
         Intent intent = new Intent (this, LevelsActivity.class);
         intent.putExtra("operators", operators);
+        intent.putExtra("isPlaying", isPlaying);
         startActivity(intent);
     }
 
-    public void openScoreActivity(){
+    public void openScoreActivity(boolean isPlaying){
         Intent intent = new Intent (this, ScoreActivity.class);
+        intent.putExtra("isPlaying",isPlaying);
         startActivity(intent);
     }
 
-    public void openSettingsActivity(){
+    public void openSettingsActivity(boolean isPlaying){
         Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("isPlaying", isPlaying);
         startActivity(intent);
     }
 

@@ -21,8 +21,9 @@ public class CustomDialogClass extends Dialog {
     String [] operators;
     int difficulty;
     TextView time;
+    boolean isPlaying;
 
-    public CustomDialogClass(Activity a, int seconds,int minutes,int hours, String [] operators, int difficulty) {
+    public CustomDialogClass(Activity a, int seconds,int minutes,int hours, String [] operators, int difficulty, boolean isPlaying) {
         super(a);
         this.c = a;
         this.hours = hours;
@@ -30,6 +31,7 @@ public class CustomDialogClass extends Dialog {
         this.seconds = seconds;
         this.operators = operators;
         this.difficulty = difficulty;
+        this.isPlaying = isPlaying;
     }
 
     @Override
@@ -47,6 +49,7 @@ public class CustomDialogClass extends Dialog {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(c, ModesActivity.class); //finish the game activity and go to mode activity
+                intent.putExtra("isPlaying", isPlaying);
                 c.startActivity(intent);
                 dismiss();
                 c.finish();
@@ -58,6 +61,7 @@ public class CustomDialogClass extends Dialog {
                 Intent intent = new Intent(c, GameActivity.class); //make new gameactivity with same mode and difficulty
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("operators", operators);
+                intent.putExtra("isPlaying", isPlaying);
                 c.startActivity(intent);
                 dismiss();
                 c.finish();
