@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CustomDialogClass extends Dialog {
 
@@ -52,7 +50,6 @@ public class CustomDialogClass extends Dialog {
                 intent.putExtra("isPlaying", isPlaying);
                 c.startActivity(intent);
                 dismiss();
-                c.finish();
             }
         });
         again.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +61,7 @@ public class CustomDialogClass extends Dialog {
                 intent.putExtra("isPlaying", isPlaying);
                 c.startActivity(intent);
                 dismiss();
-                c.finish();
+
             }
         });
     }

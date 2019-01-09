@@ -145,7 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:gravity="center"
-        android:background="@color/textcolor"
+        android:background="@drawable/past_answers"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintBottom_toTopOf="@+id/answer_parent_box"
@@ -155,18 +155,14 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="260dp">
             <LinearLayout
                 android:id="@+id/pastAnswers"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="260dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:divider="@drawable/past_answer_divider"
+                android:showDividers="middle"
                 android:background="@color/textcolor"
                 android:orientation="vertical" />
         </ScrollView>
@@ -241,5 +237,74 @@
         app:layout_constraintLeft_toRightOf="@id/answer_result_box"
         app:layout_constraintRight_toLeftOf="@id/answer_result_box"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/stage_dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/answerLayout"
+        android:layout_marginBottom="5dp">
+        <ImageView
+            android:id="@+id/stage_1"
+            android:tag="stage_1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/completed_dot"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/stage_2"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp" />
+        <ImageView
+            android:id="@+id/stage_2"
+            android:tag="stage_2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/completed_dot"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/stage_1"
+            app:layout_constraintRight_toLeftOf="@+id/stage_3"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+        <ImageView
+            android:id="@+id/stage_3"
+            android:tag="stage_3"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/current_dot"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/stage_2"
+            app:layout_constraintRight_toLeftOf="@+id/stage_4"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+        <ImageView
+            android:id="@+id/stage_4"
+            android:tag="stage_4"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/empty_dot"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/stage_3"
+            app:layout_constraintRight_toLeftOf="@id/stage_5"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"/>
+        <ImageView
+            android:id="@+id/stage_5"
+            android:tag="stage_5"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/empty_dot"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/stage_4"
+            app:layout_constraintRight_toRightOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

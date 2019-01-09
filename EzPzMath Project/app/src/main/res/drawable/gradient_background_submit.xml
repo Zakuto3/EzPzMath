@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+    <layer-list>
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:angle="270"
+                android:endColor="#550a0a0a" android:startColor="#3b000000" />
 
+            <corners android:radius="12dp"/>
+
+            <padding  android:right="1dp" android:left="1dp" android:bottom="3dp"/>
+        </shape>
+    </item>
     <item>
         <shape
             android:shape="rectangle">
@@ -16,6 +27,9 @@
                 android:endColor="#61e858"
                 android:type="linear"/>
         </shape>
+
+    </item>
+    </layer-list>
 
     </item>
     //effect when button is clicked

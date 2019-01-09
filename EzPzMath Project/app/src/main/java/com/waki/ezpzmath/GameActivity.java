@@ -1,38 +1,32 @@
 package com.waki.ezpzmath;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,8 +38,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
@@ -57,7 +49,6 @@ import java.util.TimerTask;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-
 
 
 public class GameActivity extends AppCompatActivity {
@@ -119,7 +110,7 @@ public class GameActivity extends AppCompatActivity {
         TextView count = findViewById(R.id.wincount);
         count.setText(winCount + "/5");
         test(size);//will use values sent in from other activities
-        if (difficulty <= 2)
+        if (difficulty < 3)
         {
             while (!((result % 1) == 0))
             {
@@ -129,6 +120,7 @@ public class GameActivity extends AppCompatActivity {
         }
         generateAnswerField(size);
         generateAnswerBoxes(1,size);
+        manageDots();
         TimerTask task = new TimerTask(){
             @Override
             public void run() {
@@ -143,6 +135,8 @@ public class GameActivity extends AppCompatActivity {
                 openModesActivity(isPlaying);
             }
         });
+        markPosition();
+
     }
     @Override
     protected void onStart(){
@@ -162,7 +156,6 @@ public class GameActivity extends AppCompatActivity {
         mServ.stopMusic();
         mServ.stopSelf();
         doUnbindService();
-        finish();
     }
     @Override
     protected void onStop(){
@@ -242,7 +235,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
                 break;
-                default:return;
+            default:return;
         }
     }
     public void setSound(){
@@ -311,21 +304,33 @@ public class GameActivity extends AppCompatActivity {
             timer.setText(String.format("%d:%02d:%02d", hours, minutes, seconds));
         }
     };
+
+
+
+
+
     private void generateAnswerField(int size)
     {
         final LinearLayout answers = findViewById(R.id.answerLayout);
+        //ConstraintLayout layout = new ConstraintLayout(this);
+        //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //layout.setLayoutParams(params);
+        //layout.setId(getUniqueId());
+        //layout.setBackgroundDrawable(getResources().getDrawable(R.drawable.single_past_answer));
 
         for (int i = 0; i < size; i++)
         {
             Button tempButton = new Button(this);
             tempButton.setText("");
-            tempButton.setId(i);
             tempButton.setOnClickListener(getOnRemove(i));
             tempButton.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
             answers.addView(tempButton);
             tempButton.getLayoutParams().height = 150;
             tempButton.getLayoutParams().width = 150;
-            if (i < size - 1)
+            tempButton.setId(i);
+            tempButton.setTag("nr_"+i);
+
+            if (i < (size - 1))
             {
                 TextView tempView = new TextView(this);
                 if(operators[operatorIndex[i]].equals("/")) {
@@ -340,12 +345,22 @@ public class GameActivity extends AppCompatActivity {
                 else {
                     tempView.setText(operators[operatorIndex[i]]);
                 }
-                tempView.setTextSize(30);
                 tempView.setTextColor(Color.parseColor("#c5f5c2"));
-                tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
+                tempView.setTextSize(30);
+                tempView.setTag("operator_"+i);
+                tempView.setId(getUniqueId());
+                //tempView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
                 answers.addView(tempView);
             }
         }
+        //answers.addView(layout);
+        //setConstraints(layout, answers, size);
+    }
+
+    private void markPosition()
+    {
+        Button btnPosition = findViewById(position);
+        btnPosition.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_game_brick));
     }
 
     View.OnClickListener getOnClick(final Button button)
@@ -358,7 +373,6 @@ public class GameActivity extends AppCompatActivity {
                 button.setTextColor(button.getContext().getResources().getColor(R.color.unabeld_button));
                 if (!temp.getText().equals(""))
                 {
-
                     for (int i = 0; i < numbers.length+difficulty; i++)
                     {
                         Button check = findViewById(i+10);
@@ -368,12 +382,12 @@ public class GameActivity extends AppCompatActivity {
                             {
                                 check.setEnabled(true);
                                 check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
+                                check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                                 break;
                             }
                         }
                     }
                 }
-
                 temp.setText(button.getText());
                 temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
                 temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
@@ -386,20 +400,17 @@ public class GameActivity extends AppCompatActivity {
                 }
                 if (boxPressed)
                 {
-
                     for (int i = 0; i < numbers.length; i++)
                     {
                         Button pos = findViewById(i);
                         if (pos.getText().equals(""))
                         {
-
                             position = i;
                              break;
                         }
                     }
-
-                    boxPressed = false;
                 }
+                markPosition();
             }
         };
     }
@@ -410,8 +421,14 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 StringBuilder equation = new StringBuilder();
-                LinearLayout pastAnswer = new LinearLayout(context);
-
+                //LinearLayout pastAnswer = new LinearLayout(context);
+                ConstraintLayout pastAnswer = new ConstraintLayout(context);
+                //ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                pastAnswer.setId(getUniqueId());
+                //params.setMargins(0,0,0,20);
+                //pastAnswer.setLayoutParams(params);
+                pastAnswer.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.single_past_answer));
+                pastAnswer.setPadding(20,20,20,20);
 
                 for (int i = 0; i < numbers.length; i++)
                 {
@@ -433,9 +450,12 @@ public class GameActivity extends AppCompatActivity {
                     Button tempButton = new Button(context);
                     tempButton.setText(temp.getText());
                     tempButton.setTextColor(tempButton.getContext().getResources().getColor(R.color.textcolor));
+                    tempButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                     pastAnswer.addView(tempButton);
                     tempButton.getLayoutParams().height = 150;
                     tempButton.getLayoutParams().width = 150;
+                    tempButton.setId(getUniqueId());
+                    tempButton.setTag("nr_"+i);
                     if (i < numbers.length - 1)
                     {
                         TextView tempView = new TextView(context);
@@ -452,6 +472,9 @@ public class GameActivity extends AppCompatActivity {
                             tempView.setText(operators[operatorIndex[i]]);
                         }
                         tempView.setTextColor(Color.parseColor("#c5f5c2"));
+                        tempView.setTextSize(30);
+                        tempView.setTag("operator_"+i);
+                        tempView.setId(getUniqueId());
                         pastAnswer.addView(tempView);
                     }
 
@@ -464,7 +487,7 @@ public class GameActivity extends AppCompatActivity {
                     if (resultAnswer == result)
                     {
                         palySoundEffect("correct");
-                        Log.d("win", "grats");//todo make things happen when won
+                        Log.d("win", "grats");
                         myResult.setText(String.format("%.2f", resultAnswer));
                         winCount++;
                         LinearLayout ll = findViewById(R.id.pastAnswers);
@@ -473,6 +496,8 @@ public class GameActivity extends AppCompatActivity {
                         pastResult.setText("");
                         TextView count = findViewById(R.id.wincount);
                         count.setText( winCount + "/5");
+                        manageDots();
+
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             //handle score when a game is won, extra 0 on hours for database sake
@@ -488,22 +513,42 @@ public class GameActivity extends AppCompatActivity {
                             answerBoxes.removeAllViews();
                             answerButtons.removeAllViews();
                             int size = difficulty + 2;
-                            test(size);//will use values sent in from other activities
+                            test(size);
+                            if (difficulty < 3)
+                            {
+                                while (!((result % 1) == 0))
+                                {
+                                    test(size);
+                                    Log.e("redo", "redone test");
+                                }
+                            }
                             generateAnswerField(size);
                             generateAnswerBoxes(1 ,size);
                         }
                     }
                     else
                     {
-                        minutes++;
                         palySoundEffect("wrong");
+                        seconds += 20;
+                        if (seconds > 60)
+                        {
+                            seconds = seconds % 60;
+                            minutes++;
+                        }
+                        if (minutes > 60)
+                        {
+                            hours++;
+                            minutes = 0;
+                        }
                         LinearLayout past = findViewById(R.id.pastAnswers);
                         past.addView(pastAnswer);
+                        setConstraints(pastAnswer, past, numbers.length);
                         myResult.setText(String.format("%.2f", resultAnswer));
                     }
                     for (int i = 0; i < numbers.length; i++)
                     {
                         Button temp = findViewById(i);
+                        temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
                         temp.setText("");
                     }
                     for (int i = 0; i < numbers.length + 1; i++)
@@ -511,14 +556,63 @@ public class GameActivity extends AppCompatActivity {
                         Log.e("error", ""+i);
                         Button temp = findViewById(i+10);
                         temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
+                        temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                         temp.setEnabled(true);
                     }
                     position = 0;
                 } catch (ScriptException e) {
                     Log.e("error", e.getMessage());
                 }
+                markPosition();
             }
         };
+    }
+
+    int getUniqueId(){
+        Random rand = new Random();
+        int id;
+        while (findViewById(id = rand.nextInt(Integer.MAX_VALUE) + 1) != null);
+        return id;
+    }
+
+    void setConstraints(ConstraintLayout row, LinearLayout pastAnswersLayout, int length){
+        ConstraintSet set = new ConstraintSet();
+        TextView operator;
+        Button number;
+        set.clone(row);
+        if(pastAnswersLayout != null){
+            set.connect(row.getId(), ConstraintSet.LEFT, pastAnswersLayout.getId(), ConstraintSet.LEFT);
+            set.connect(row.getId(), ConstraintSet.RIGHT, pastAnswersLayout.getId(), ConstraintSet.RIGHT);
+        }
+        for(int i = 0; i < length; i++){
+            number = row.findViewWithTag("nr_"+i);
+            if(i == 0){
+                operator = row.findViewWithTag("operator_"+i);
+                set.connect(operator.getId(), ConstraintSet.LEFT, number.getId(), ConstraintSet.RIGHT);
+                set.connect(number.getId(), ConstraintSet.LEFT, row.getId(), ConstraintSet.LEFT);
+                set.connect(number.getId(), ConstraintSet.RIGHT, operator.getId(), ConstraintSet.LEFT);
+                //Log.d("setConstraints", "IF - "+number.getId()+ " operator = "+operator.getId());
+            }
+            else if(i == (length-1)){
+                operator = row.findViewWithTag("operator_"+(i-1));
+                set.connect(operator.getId(), ConstraintSet.RIGHT, number.getId(), ConstraintSet.LEFT);
+                set.connect(number.getId(), ConstraintSet.LEFT, operator.getId(), ConstraintSet.RIGHT);
+                set.connect(number.getId(), ConstraintSet.RIGHT, row.getId(), ConstraintSet.RIGHT);
+                //Log.d("setConstraints", "ELSE IF - "+number.getId()+ " operator = "+operator.getId());
+            }
+            else{
+                operator = row.findViewWithTag("operator_"+i);
+                set.connect(operator.getId(), ConstraintSet.LEFT, number.getId(), ConstraintSet.RIGHT);
+                set.connect(number.getId(), ConstraintSet.RIGHT, operator.getId(), ConstraintSet.LEFT);
+                operator = row.findViewWithTag("operator_"+(i-1));
+                set.connect(operator.getId(), ConstraintSet.RIGHT, number.getId(), ConstraintSet.LEFT);
+                set.connect(number.getId(), ConstraintSet.LEFT, operator.getId(), ConstraintSet.RIGHT);
+                //Log.d("setConstraints", "ELSE - "+number.getId()+ " operator = "+operator.getId());
+            }
+            set.connect(operator.getId(), ConstraintSet.TOP, row.getId(), ConstraintSet.TOP);
+            set.connect(operator.getId(), ConstraintSet.BOTTOM, row.getId(), ConstraintSet.BOTTOM);
+        }
+        set.applyTo(row);
     }
 
     private void showWin()//endgame screen
@@ -606,46 +700,38 @@ public class GameActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    View.OnClickListener getOnRemove(final int pos)
-    {
-        return new View.OnClickListener(){
+    View.OnClickListener getOnRemove(final int pos) {
+        return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                palySoundEffect("unclick");
-                if (!(pos == position))
-                {
-
-                    tempPos = position;
-                    Button temp = findViewById(pos);
-                    for (int i = 0; i < numbers.length+difficulty; i++)
-                    {
-                        Button check = findViewById(i+10);
-                        if(check != null)//somebody removed this? error if yes
-                        {
-                            if (check.getText().equals(temp.getText()))
-                            {
-                                if (!check.isEnabled())
-                                {
-                                    check.setEnabled(true);
-                                    check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
-                                    check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
-                                    break;
-                                }
+                tempPos = position;
+                Button temp = findViewById(pos);
+                for (int i = 0; i < numbers.length + difficulty; i++) {
+                    Button check = findViewById(i + 10);
+                    if (check != null) {
+                        if (check.getText().equals(temp.getText())) {
+                            if (!check.isEnabled()) {
+                                check.setEnabled(true);
+                                check.setTextColor(check.getContext().getResources().getColor(R.color.textcolor));
+                                check.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
+                                break;
                             }
                         }
-
                     }
-                    temp.setText("");
-                    temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
-                    position = pos;
-                    boxPressed = true;
+
                 }
+                temp.setText("");
+                Button prev = findViewById(position);
+                prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
+                position = pos;
+                boxPressed = true;
+                markPosition();
             }
         };
     }
 
     @SuppressLint("ResourceAsColor")
-    private void generateAnswerBoxes(int difficulty, int size)//do no know what this variable will become
+    private void generateAnswerBoxes(int difficulty, int size)
     {//this generates the lowest boxes
         final LinearLayout boxes = findViewById(R.id.answerBoxLayout);
         int[] temp = new int[difficulty + size];
@@ -655,7 +741,18 @@ public class GameActivity extends AppCompatActivity {
         }
 
         for (int i = size; i < size + difficulty; i++) {
-            temp[i] = rnd.nextInt((9-1) + 1) + 1;
+            if(difficulty == 1)
+            {
+                temp[i] = rnd.nextInt((5-1) + 1) + 1;
+            }
+            else if (difficulty == 2)
+            {
+                temp[i] = rnd.nextInt((7-1) + 1) + 1;
+            }
+            else
+            {
+                temp[i] = rnd.nextInt((9-1) + 1) + 1;
+            }
         }
         shuffleArr(temp);
         for (int i = 0; i < size + difficulty; i++)
@@ -721,11 +818,33 @@ public class GameActivity extends AppCompatActivity {
         StringBuilder equation = new StringBuilder();
         for (int i = 0; i < size; i++)
         {
-            numbers[i] = rnd.nextInt((9-1) + 1) + 1;
+            if(difficulty == 1)
+            {
+                numbers[i] = rnd.nextInt((5-1) + 1) + 1;
+            }
+            else if (difficulty == 2)
+            {
+                numbers[i] = rnd.nextInt((7-1) + 1) + 1;
+            }
+            else
+            {
+                numbers[i] = rnd.nextInt((9-1) + 1) + 1;
+            }
+
         }
+        int divides = 0;
         for (int i = 0; i < size - 1; i++)
         {
             operatorIndex[i] = rnd.nextInt((operators.length));
+            if (operators[operatorIndex[i]].equals("/"))
+            {
+                if (divides >= 2)
+                {
+                    operatorIndex[i] = rnd.nextInt((operators.length - 1));
+                    Log.d("change", "Changed operator");
+                }
+                divides++;
+            }
             Log.d("msg", ""+operators[operatorIndex[i]]);
         }
         for (int i = 0; i < size; i++)
@@ -824,6 +943,51 @@ public class GameActivity extends AppCompatActivity {
         }
         Log.d("SCORESTRING", scoreString);
         return scoreString;
+    }
+
+    private void manageDots(){
+        ConstraintLayout dots = findViewById(R.id.stage_dots);
+        int bigdot = (int)convertDpToPixel(12, this);
+        int smalldot = (int)convertDpToPixel(10, this);
+        ImageView dot;
+        for(int i = 1; i <= 5; i++){
+            dot = dots.findViewWithTag("stage_"+i);
+            if(dot != null){
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) dot.getLayoutParams();
+                if(i <= winCount){
+                    dot.setBackgroundDrawable(getResources().getDrawable(R.drawable.completed_dot));
+                    params.width = smalldot;
+                    params.height = smalldot;
+                    params.setMargins(0,0,0,0);
+                }
+                else if(i == (winCount+1)){
+                    dot.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_dot));
+                    params.width = bigdot;
+                    params.height = bigdot;
+                    params.setMargins(0,0,0,(int)convertDpToPixel(2, this));
+                }
+                else {
+                    dot.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_dot));
+                    params.width = smalldot;
+                    params.height = smalldot;
+                    params.setMargins(0,0,0,0);
+                }
+                dot.setLayoutParams(params);
+
+            }
+        }
+    }
+
+    /**
+     * This method converts dp unit to equivalent pixels, depending on device density.
+     *
+     * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
+     * @param context Context to get resources and device specific display metrics
+     * @return A float value to represent px equivalent to dp depending on device density
+     */
+    //https://stackoverflow.com/questions/4605527/converting-pixels-to-dp
+    public static float convertDpToPixel(float dp, Context context){
+        return dp * (context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
 }
 
