@@ -329,6 +329,7 @@ public class GameActivity extends AppCompatActivity {
             tempButton.getLayoutParams().width = 150;
             tempButton.setId(i);
             tempButton.setTag("nr_"+i);
+            tempButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
             if (i < (size - 1))
             {
@@ -360,7 +361,12 @@ public class GameActivity extends AppCompatActivity {
     private void markPosition()
     {
         Button btnPosition = findViewById(position);
-        btnPosition.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_game_brick));
+        if(btnPosition.getText() == ""){
+            btnPosition.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_game_brick_empty));
+        }
+        else{
+            btnPosition.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_game_brick));
+        }
     }
 
     View.OnClickListener getOnClick(final Button button)
@@ -722,7 +728,11 @@ public class GameActivity extends AppCompatActivity {
                 }
                 temp.setText("");
                 Button prev = findViewById(position);
-                prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
+                if(prev.getText() == ""){
+                    prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
+                }else{
+                    prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
+                }
                 position = pos;
                 boxPressed = true;
                 markPosition();
