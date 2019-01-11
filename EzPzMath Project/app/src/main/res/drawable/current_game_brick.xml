@@ -22,7 +22,7 @@
                         android:bottomRightRadius="10dp"
                         android:radius="10dp"/>
                     <solid
-                        android:color="#C5F5C2"/>
+                        android:color="#C5F5C1"/>
                     <stroke android:color="#0bdc00"
                         android:width="7px" />
                 </shape>
