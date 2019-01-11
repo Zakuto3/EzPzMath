@@ -152,7 +152,10 @@ public class  MainActivity extends AppCompatActivity {
         exit_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View V){
-                finish();
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             }
         });
 

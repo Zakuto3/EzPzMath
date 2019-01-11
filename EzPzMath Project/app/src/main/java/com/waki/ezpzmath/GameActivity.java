@@ -279,7 +279,6 @@ public class GameActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (true) {
             openModesActivity(isPlaying);
-            finish();
         } else {
             super.onBackPressed();
         }
@@ -686,7 +685,7 @@ public class GameActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         openModesActivity(isPlaying);
-                        finish();
+
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
