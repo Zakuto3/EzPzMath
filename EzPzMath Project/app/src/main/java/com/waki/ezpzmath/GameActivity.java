@@ -68,9 +68,11 @@ public class GameActivity extends AppCompatActivity {
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     boolean isPlaying;
+    int fake = 0;
     ImageButton soundBtn;
     private boolean mIsBound = false;      //For anything about Music Service have a look on the comments in Main activity and MusicService class
     private MusicService mServ;
+    int timeHint = 1;
     private ServiceConnection Scon = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -91,6 +93,7 @@ public class GameActivity extends AppCompatActivity {
         operators = getIntent().getExtras().getStringArray("operators");
         soundBtn = findViewById(R.id.soundButton_game);
         isPlaying = getIntent().getExtras().getBoolean("isPlaying");
+
 
         setSoundIcon(isPlaying);
         mServ = new MusicService();
@@ -136,6 +139,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         markPosition();
+
+        Button answer = (Button) findViewById(R.id.answer);
+        answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hint();
+            }
+        });
 
     }
     @Override
@@ -502,7 +513,6 @@ public class GameActivity extends AppCompatActivity {
                         TextView count = findViewById(R.id.wincount);
                         count.setText( winCount + "/5");
                         manageDots();
-
                         if (winCount == 5)//how many wins it takes to win the game
                         {
                             //handle score when a game is won, extra 0 on hours for database sake
@@ -518,6 +528,8 @@ public class GameActivity extends AppCompatActivity {
                             answerBoxes.removeAllViews();
                             answerButtons.removeAllViews();
                             int size = difficulty + 2;
+                            Button answer = findViewById(R.id.answer);
+                            answer.setEnabled(true);
                             test(size);
                             if (difficulty < 3)
                             {
@@ -739,6 +751,64 @@ public class GameActivity extends AppCompatActivity {
         };
     }
 
+    private void hint()
+    {
+        Log.d("?","yes");
+        if (fake != 0)
+        {
+            Log.d("?",""+fake);
+            for (int i = 0; i < numbers.length + difficulty; i++) {
+                Button check = findViewById(i + 10);
+                Log.d("k",""+check.getText());
+                if ((check != null) && Integer.toString(fake).equals(check.getText()))
+                {   Log.d("?",""+fake);
+                    check.setEnabled(false);
+                    check.setText("");
+                    check.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
+                    Button answer = findViewById(R.id.answer);
+                    answer.setEnabled(false);
+                    seconds += 5*timeHint;
+                    timeHint++;
+                    if (seconds > 60)
+                    {
+                        seconds = seconds % 60;
+                        minutes++;
+                    }
+                    if (minutes > 60)
+                    {
+                        hours++;
+                        minutes = 0;
+                    }
+                    for (int j = 0; j < numbers.length; j++)
+                    {
+                        Button box = findViewById(j);
+                        if (box.getText().equals(check.getText()))
+                        {
+                            Button prev = findViewById(position);
+                            if(prev.getText() == ""){
+                                prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
+                            }else{
+                                prev.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
+                            }
+                            boxPressed = true;
+                            check.setText(box.getText());
+                            box.setText("");
+                            box.setBackgroundDrawable(getResources().getDrawable(R.drawable.current_game_brick_empty));
+                            position = j;
+                            Log.d("good", "yes");
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Log.e("error", "fake isnt assigned");
+        }
+    }
+
     @SuppressLint("ResourceAsColor")
     private void generateAnswerBoxes(int difficulty, int size)
     {//this generates the lowest boxes
@@ -753,14 +823,17 @@ public class GameActivity extends AppCompatActivity {
             if(difficulty == 1)
             {
                 temp[i] = rnd.nextInt((5-1) + 1) + 1;
+                fake = temp[i];
             }
             else if (difficulty == 2)
             {
                 temp[i] = rnd.nextInt((7-1) + 1) + 1;
+                fake = temp[i];
             }
             else
             {
                 temp[i] = rnd.nextInt((9-1) + 1) + 1;
+                fake = temp[i];
             }
         }
         shuffleArr(temp);
