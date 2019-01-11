@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CustomDialogClass extends Dialog {
 
@@ -21,8 +19,9 @@ public class CustomDialogClass extends Dialog {
     String [] operators;
     int difficulty;
     TextView time;
+    boolean isPlaying;
 
-    public CustomDialogClass(Activity a, int seconds,int minutes,int hours, String [] operators, int difficulty) {
+    public CustomDialogClass(Activity a, int seconds,int minutes,int hours, String [] operators, int difficulty, boolean isPlaying) {
         super(a);
         this.c = a;
         this.hours = hours;
@@ -30,6 +29,7 @@ public class CustomDialogClass extends Dialog {
         this.seconds = seconds;
         this.operators = operators;
         this.difficulty = difficulty;
+        this.isPlaying = isPlaying;
     }
 
     @Override
@@ -47,9 +47,9 @@ public class CustomDialogClass extends Dialog {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(c, ModesActivity.class); //finish the game activity and go to mode activity
+                intent.putExtra("isPlaying", isPlaying);
                 c.startActivity(intent);
                 dismiss();
-                c.finish();
             }
         });
         again.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +58,10 @@ public class CustomDialogClass extends Dialog {
                 Intent intent = new Intent(c, GameActivity.class); //make new gameactivity with same mode and difficulty
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("operators", operators);
+                intent.putExtra("isPlaying", isPlaying);
                 c.startActivity(intent);
                 dismiss();
-                c.finish();
+
             }
         });
     }

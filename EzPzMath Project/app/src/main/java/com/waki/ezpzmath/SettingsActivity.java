@@ -1,7 +1,11 @@
 package com.waki.ezpzmath;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +22,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 
 public class SettingsActivity extends AppCompatActivity {
     String [] Titles = {"How to play?", "Music", "Remove ADS", "Logout"};
@@ -26,13 +33,38 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseAuth.AuthStateListener mAuthListener;
     public ImageButton back_button;
+    private boolean mIsBound = false;       //For anything about Music Service have a look on the comments in Main activity class and MusicService class
+    private MusicService mServ;
+    private ServiceConnection Scon = new ServiceConnection() {
 
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            mServ = ((MusicService.ServiceBinder)binder).getService();
+        }
 
-
+        public void onServiceDisconnected(ComponentName name) {
+            mServ = null;
+        }
+    };
+    private boolean [] itemToggled; //to track the sound button and be able to change the sound icon
+    boolean isPlaying;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        isPlaying = getIntent().getExtras().getBoolean("isPlaying");
+        mServ = new MusicService();
+        Intent music = new Intent();
+        music.setClass(this,MusicService.class);
+        if(isPlaying) {
+            startService(music);
+        }
+
+        itemToggled = new boolean[Images.length];
+        Arrays.fill(itemToggled, false);
+        if(isPlaying == false) {
+            itemToggled[1] = true;
+        }
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -46,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
+
         ListViewAdapter listViewAdapter = new ListViewAdapter(this, Titles,Images);
         settingsListView = findViewById(R.id.settings_listView);
         settingsListView.setAdapter(listViewAdapter);
@@ -54,7 +87,7 @@ public class SettingsActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                openModesActivity();
+                openModesActivity(isPlaying);
             }
         });
         settingsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,12 +95,14 @@ public class SettingsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position == 0){
                     //How To Play
-                    openHowToPlayActivity();
+                    openHowToPlayActivity(isPlaying);
                 }
                 else if(position == 1){
                     //sound on/off
-                    Toast.makeText(getApplicationContext(),"sound on/off",Toast.LENGTH_SHORT).show();
-
+                    itemToggled[position] = !itemToggled[position];
+                    setSound();
+                    ImageView imageView = (ImageView) view.findViewById(R.id.settings_option_image);
+                    imageView.setImageResource(itemToggled[position] ? R.drawable.settings_sound_of : R.drawable.settings_sound_on);
                 }else if(position == 2){
                     //remove ADS
                     Toast.makeText(getApplicationContext(),"remove ADS",Toast.LENGTH_SHORT).show();
@@ -80,6 +115,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 //openLogInActivity();
                                 Intent intent = new Intent(SettingsActivity.this, MainActivity.class );
                                 startActivity(intent);
+
                             }
                         }
                     };
@@ -91,29 +127,85 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+    public void setSoundIcon(boolean isPlaying){
+        if(!isPlaying){
+            Images[1] = R.drawable.settings_sound_of;
+            //Arrays.fill(itemToggled,true);
+        }
+    }
+    void doBindService(){
+        if(!mIsBound) {
+            bindService(new Intent(this,MusicService.class),
+                    Scon, Context.BIND_AUTO_CREATE);
+            mIsBound = true;
+        }
+    }
 
+    void doUnbindService()
+    {
+        if(mIsBound)
+        {
+            unbindService(Scon);
+            mIsBound = false;
+        }
+    }
+    public void setSound(){
+        if(mServ.isPlaying()) {
+            mServ.pauseMusic();
+            isPlaying = false;
+        }
+        else{
+            mServ.resumeMusic();
+            isPlaying = true;
+        }
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        if(mIsBound) {
+            doUnbindService();
+        }
+    }
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        if(!mServ.isPlaying() && isPlaying){
+            mServ.resumeMusic();
+        }
+    }
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        mServ.stopMusic();
+        mServ.stopSelf();
+        doUnbindService();
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
+        doBindService();
+        setSoundIcon(isPlaying);
     }
 
     @Override
     public void onBackPressed() {
         if (true) {
-            openModesActivity();
+            openModesActivity(isPlaying);
         } else {
             super.onBackPressed();
         }
     }
 
-    public void openModesActivity(){
+    public void openModesActivity(boolean isPlaying){
         Intent intent = new Intent (this, ModesActivity.class);
+        intent.putExtra("isPlaying", isPlaying);
         startActivity(intent);
 
     }
-    public void openHowToPlayActivity(){
+    public void openHowToPlayActivity(boolean isPlaying){
         Intent intent = new Intent(this,HowToPlayActivity.class);
+        intent.putExtra("isPlaying",isPlaying);
         startActivity(intent);
     }
 }
@@ -142,5 +234,6 @@ class ListViewAdapter extends ArrayAdapter<String> {
 
         return rowView;
     }
+
 }
 
