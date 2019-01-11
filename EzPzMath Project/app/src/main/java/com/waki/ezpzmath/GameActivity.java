@@ -40,6 +40,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -546,6 +548,7 @@ public class GameActivity extends AppCompatActivity {
                             minutes = 0;
                         }
                         LinearLayout past = findViewById(R.id.pastAnswers);
+                        addPastAnswerClick(pastAnswer,numbers.length, String.format("%.2f", resultAnswer));
                         past.addView(pastAnswer);
                         setConstraints(pastAnswer, past, numbers.length);
                         myResult.setText(String.format("%.2f", resultAnswer));
@@ -571,6 +574,40 @@ public class GameActivity extends AppCompatActivity {
                 markPosition();
             }
         };
+    }
+
+    private void addPastAnswerClick(final ConstraintLayout pastAnswer, final int length, final String resultAnswer) {
+
+        if(pastAnswer != null){
+            final LinearLayout pastAnswers = findViewById(R.id.pastAnswers);
+            final TextView leftCircle = findViewById(R.id.result);
+            for (int i = 0; i < length; i++){
+                    Button pastAnswerNum = pastAnswer.findViewWithTag("nr_"+i);
+                    pastAnswerNum.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            leftCircle.setText(resultAnswer);
+                            highlightPastEquation(pastAnswer,pastAnswers);
+                        }
+                    });
+            }
+            pastAnswer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    leftCircle.setText(resultAnswer);
+                    highlightPastEquation(pastAnswer,pastAnswers);
+                }
+            });
+            highlightPastEquation(pastAnswer, pastAnswers);
+        }
+    }
+
+    private void highlightPastEquation(ConstraintLayout pastAnswer, LinearLayout pastAnswers) {
+        for (int i = 0; i < pastAnswers.getChildCount(); i++){
+            ConstraintLayout row = (ConstraintLayout) pastAnswers.getChildAt(i);
+            row.setBackgroundDrawable(getResources().getDrawable(R.drawable.single_past_answer));
+        }
+        pastAnswer.setBackgroundDrawable(getResources().getDrawable(R.drawable.past_selected_equation));
     }
 
     int getUniqueId(){
