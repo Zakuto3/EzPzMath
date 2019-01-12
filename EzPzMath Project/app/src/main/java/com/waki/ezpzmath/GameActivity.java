@@ -800,7 +800,7 @@ public class GameActivity extends AppCompatActivity {
                 if ((check != null) && Integer.toString(fake).equals(check.getText()))
                 {   Log.d("?",""+fake);
                     check.setEnabled(false);
-                    check.setText("");
+
                     check.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
                     Button answer = findViewById(R.id.answer);
                     answer.setEnabled(false);
@@ -836,6 +836,7 @@ public class GameActivity extends AppCompatActivity {
                             break;
                         }
                     }
+                    check.setText("");
                     break;
                 }
             }
