@@ -37,7 +37,7 @@
         android:id="@+id/constraintOptions"
         app:layout_constraintBottom_toTopOf="@+id/imageView2_settings"
         app:layout_constraintTop_toBottomOf="@+id/imageView1_settings"
-        app:layout_constraintLeft_toLeftOf="parent"
+         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"

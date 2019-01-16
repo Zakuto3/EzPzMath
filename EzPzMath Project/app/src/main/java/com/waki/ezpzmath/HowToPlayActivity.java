@@ -12,12 +12,15 @@ import android.provider.FontsContract;
 import android.support.annotation.FontRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Scroller;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +32,7 @@ public class HowToPlayActivity extends AppCompatActivity {
     Button toRight;
     Button toLeft;
     String [] Pages = {"Eazy Peazy Math is an application that improves and enhances your mathematical knowledge ,ranging from basic to complicated skills.",
-                        "When starting the game, you will be given 3 mode options which are (+ -), (* /) and (+ - * /) and 3 level options which are easy, medium and difficult mode.",
+                        "When starting the game, you will be given 3 mode options which are (+ −), (× ÷) and (+ − × ÷) and 3 level options which are easy, medium and hard mode.",
                         "When starting the game , you will be given an numbe, a goal that you have to achieve in order to obtain same number as shown in the answer bubble. The possible answers will be also provided to you  in the box below the answer bubble. When selecting the possible answers , a submit button can be pressed and in return you will be given your result.",
                         "If your result is right,  then a new number will be given to you as your new task. However, if  your answer is wrong. the outcome of the added, divided or multiplied numbers will be shown in a bubble beside the answer bubble to show whether you are close or far from the answer, hence that a new operation box will be provided until you obtain the right answer. In order to win, you must  answer all the five answers correctly."};
     int currentIndex = -1;
@@ -74,6 +77,7 @@ public class HowToPlayActivity extends AppCompatActivity {
                 TextView text1 = new TextView(HowToPlayActivity.this);
                 text1.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                 text1.setTextSize(20);
+                text1.setMovementMethod(new ScrollingMovementMethod());
                 text1.setTextColor(Color.parseColor("#266352"));
                 return text1;
             }
