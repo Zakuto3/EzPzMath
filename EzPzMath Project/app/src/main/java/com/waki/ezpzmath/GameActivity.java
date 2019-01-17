@@ -24,6 +24,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -504,6 +506,7 @@ public class GameActivity extends AppCompatActivity {
 
                     if (resultAnswer == result)
                     {
+                        triggerCheckMark();
                         palySoundEffect("correct");
                         Log.d("win", "grats");
                         myResult.setText(String.format("%.2f", resultAnswer));
@@ -1096,6 +1099,20 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    void triggerCheckMark(){
+        final ImageView img = findViewById(R.id.check_mark);
+        img.setVisibility(View.VISIBLE);
+        Animation fadeout = new AlphaAnimation(1.f, 0.f);
+        fadeout.setDuration(1000);
+        img.startAnimation(fadeout);
+        img.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                img.setVisibility(View.GONE);
+            }
+        }, 1000);
     }
 
     /**

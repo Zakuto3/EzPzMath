@@ -141,7 +141,6 @@ public class SettingsActivity extends AppCompatActivity {
         }catch (Exception e){
             prevActivity = null;
         }
-        Transition
         if(prevActivity != null){
             overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
         }else{
