@@ -564,7 +564,8 @@ public class GameActivity extends AppCompatActivity {
                         }
                         LinearLayout past = findViewById(R.id.pastAnswers);
                         addPastAnswerClick(pastAnswer,numbers.length, String.format("%.2f", resultAnswer));
-                        past.addView(pastAnswer);
+                        //past.addView(pastAnswer);
+                        past.addView(pastAnswer, 0);
                         setConstraints(pastAnswer, past, numbers.length);
                         myResult.setText(String.format("%.2f", resultAnswer));
                     }
@@ -807,7 +808,7 @@ public class GameActivity extends AppCompatActivity {
                     check.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
                     Button answer = findViewById(R.id.answer);
                     answer.setEnabled(false);
-                    seconds += 5*timeHint;
+                    seconds += 10*timeHint*difficulty;
                     timeHint++;
                     if (seconds > 60)
                     {
