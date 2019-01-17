@@ -313,10 +313,10 @@ public class ScoreActivity extends AppCompatActivity {
                             }
                             setTopTen(task.getResult(), scoreType);
                             scoreLoader.setVisibility(View.GONE);
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            /*for (QueryDocumentSnapshot document : task.getResult()) {
                                 String mail = document.getData().get("gmail").toString();
                                 Log.d("setScoreboards", document.getId() + " => " + mail);
-                            }
+                            }*/
                         } else {
                             Log.w("setScoreboards", "Error getting documents.", task.getException());
                         }

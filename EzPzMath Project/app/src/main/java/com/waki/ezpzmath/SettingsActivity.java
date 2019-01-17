@@ -67,6 +67,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         mAuth = FirebaseAuth.getInstance();
+
+        if(mAuth.getCurrentUser() == null){
+            Titles[3] = "Log in";
+        }
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
