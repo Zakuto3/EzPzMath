@@ -79,6 +79,10 @@ public class  MainActivity extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        if (mAuth.getCurrentUser() != null)
+        {
+            mAuth.getCurrentUser().delete();
+        }
     }
     @Override
     protected void onRestart(){
@@ -202,6 +206,7 @@ public class  MainActivity extends AppCompatActivity {
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account);
+                mGoogleSignInClient.signOut();
             } catch (ApiException e) {
                 Toast.makeText(this,"Could not log in API EXC", Toast.LENGTH_SHORT).show();
 

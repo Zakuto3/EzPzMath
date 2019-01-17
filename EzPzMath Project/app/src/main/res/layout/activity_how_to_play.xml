@@ -71,6 +71,7 @@
             android:fontFamily="@font/joyfultheatre"
             android:background="@color/settingsBackground"
             app:layout_constraintTop_toBottomOf="@id/howToPlay">
+
         </TextSwitcher>
 
         <Button
