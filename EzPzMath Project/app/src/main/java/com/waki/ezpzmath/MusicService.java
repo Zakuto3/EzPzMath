@@ -89,9 +89,11 @@ public class MusicService extends Service  implements MediaPlayer.OnErrorListene
     }
 
     public void stopMusic() {
-        mPlayer.stop();
-        mPlayer.release();
-        mPlayer = null;
+        if(mPlayer != null){
+            mPlayer.stop();
+            mPlayer.release();
+            mPlayer = null;
+        }
     }
     @Override
     public void onDestroy() {
