@@ -137,7 +137,7 @@ public class GameActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openModesActivity(isPlaying);
+                exitByBackKey();
             }
         });
         markPosition();
