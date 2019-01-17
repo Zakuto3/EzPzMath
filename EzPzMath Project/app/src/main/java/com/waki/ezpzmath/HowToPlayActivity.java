@@ -56,6 +56,8 @@ public class HowToPlayActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_how_to_play);
 
+        overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+
         isPlaying = getIntent().getExtras().getBoolean("isPlaying");
         mServ = new MusicService();
         Intent music = new Intent();
@@ -158,6 +160,7 @@ public class HowToPlayActivity extends AppCompatActivity {
     public void openSettingsActivity( boolean isPlaying){
         Intent intent = new Intent(this,SettingsActivity.class);
         intent.putExtra("isPlaying", isPlaying);
+        intent.putExtra("PreviousActivity", "Howtoplay");
         startActivity(intent);
     }
     void doBindService(){

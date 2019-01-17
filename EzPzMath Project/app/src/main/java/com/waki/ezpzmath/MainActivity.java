@@ -111,6 +111,8 @@ public class  MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        overridePendingTransition(R.anim.slide_in_from_top, R.anim.slide_out_to_bottom);
+
         Intent music = new Intent();
         music.setClass(this,MusicService.class);
         startService(music);
@@ -190,6 +192,7 @@ public class  MainActivity extends AppCompatActivity {
     public void openModesActivity(boolean isPlaying){
         Intent intent =  new Intent(this, ModesActivity.class);
         intent.putExtra("isPlaying", isPlaying);
+        intent.putExtra("PreviousActivity", "Login");
         startActivity(intent);
     }
 

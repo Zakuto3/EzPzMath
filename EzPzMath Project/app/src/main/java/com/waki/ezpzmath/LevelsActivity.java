@@ -52,6 +52,8 @@ public class LevelsActivity extends AppCompatActivity {
         });
 
 
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top);
+
         operators = getIntent().getExtras().getStringArray("operators");
         Level_back_button = findViewById(R.id.imageButton9);
         Level_back_button.setOnClickListener(new View.OnClickListener() {

@@ -20,8 +20,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -78,6 +78,8 @@ public class ScoreActivity extends AppCompatActivity {
             startService(music);
         }
 
+        overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+
         score_back_button = findViewById(R.id.imageButton9);
         score_back_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +117,7 @@ public class ScoreActivity extends AppCompatActivity {
     public void openModesActivity(boolean isPlaying){
         Intent intent = new Intent (this, ModesActivity.class);
         intent.putExtra("isPlaying", isPlaying);
+        intent.putExtra("PreviousActivity", "Score");
         startActivity(intent);
 
     }
@@ -429,5 +432,6 @@ public class ScoreActivity extends AppCompatActivity {
             noUserText.setVisibility(View.GONE);
         }
     }
+
 }
 

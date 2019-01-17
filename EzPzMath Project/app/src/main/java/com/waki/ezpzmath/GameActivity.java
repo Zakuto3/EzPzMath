@@ -40,8 +40,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -96,6 +94,8 @@ public class GameActivity extends AppCompatActivity {
         soundBtn = findViewById(R.id.soundButton_game);
         isPlaying = getIntent().getExtras().getBoolean("isPlaying");
 
+
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top);
 
         setSoundIcon(isPlaying);
         mServ = new MusicService();

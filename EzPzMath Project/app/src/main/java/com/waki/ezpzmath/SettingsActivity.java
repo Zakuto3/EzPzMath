@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
@@ -59,6 +58,8 @@ public class SettingsActivity extends AppCompatActivity {
         if(isPlaying) {
             startService(music);
         }
+
+        manageAnim();
 
         itemToggled = new boolean[Images.length];
         Arrays.fill(itemToggled, false);
@@ -132,6 +133,22 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void manageAnim() {
+        String prevActivity = "";
+        try{
+            prevActivity = getIntent().getExtras().getString("PreviousActivity");
+        }catch (Exception e){
+            prevActivity = null;
+        }
+        Transition
+        if(prevActivity != null){
+            overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+        }else{
+            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        }
+    }
+
     public void setSoundIcon(boolean isPlaying){
         if(!isPlaying){
             Images[1] = R.drawable.settings_sound_of;
@@ -205,6 +222,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void openModesActivity(boolean isPlaying){
         Intent intent = new Intent (this, ModesActivity.class);
         intent.putExtra("isPlaying", isPlaying);
+        intent.putExtra("PreviousActivity", "Settings");
         startActivity(intent);
 
     }
