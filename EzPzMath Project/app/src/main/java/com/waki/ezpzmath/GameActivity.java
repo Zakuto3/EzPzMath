@@ -75,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean mIsBound = false;      //For anything about Music Service have a look on the comments in Main activity and MusicService class
     private MusicService mServ;
     int timeHint = 1;
+    Button currentHintBrick;
     private ServiceConnection Scon = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -583,6 +584,9 @@ public class GameActivity extends AppCompatActivity {
                         temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                         temp.setEnabled(true);
                     }
+                    if (currentHintBrick != null) {
+                        currentHintBrick.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
+                    }
                     position = 0;
                 } catch (ScriptException e) {
                     Log.e("error", e.getMessage());
@@ -806,6 +810,7 @@ public class GameActivity extends AppCompatActivity {
                     check.setEnabled(false);
 
                     check.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
+                    currentHintBrick = check;
                     Button answer = findViewById(R.id.answer);
                     answer.setEnabled(false);
                     seconds += 10*timeHint*difficulty;
