@@ -19,7 +19,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.lang.reflect.Array;
@@ -27,6 +30,8 @@ import java.util.Arrays;
 
 
 public class SettingsActivity extends AppCompatActivity {
+
+
     String [] Titles = {"How to play?", "Music", "Remove ADS", "Logout"};
     Integer [] Images ={R.drawable.howtoplay,R.drawable.settings_sound_on, R.drawable.remove_ads,R.drawable.logout};
     ListView settingsListView;
@@ -35,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     public ImageButton back_button;
     private boolean mIsBound = false;       //For anything about Music Service have a look on the comments in Main activity class and MusicService class
     private MusicService mServ;
+    public boolean AdOnPause = true;
     private ServiceConnection Scon = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -47,11 +53,27 @@ public class SettingsActivity extends AppCompatActivity {
     };
     private boolean [] itemToggled; //to track the sound button and be able to change the sound icon
     boolean isPlaying;
+    private AdView mAdView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+//-----------
+        if (AdOnPause) {
+            MobileAds.initialize(this, "ca-app-pub-3940256099942544~6300978111");
 
+            mAdView = (AdView) findViewById(R.id.adView);
+
+
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                    .build();
+
+            mAdView.loadAd(adRequest);
+        }
+
+        //Toast.makeText(getApplicationContext(),"Adds?",Toast.LENGTH_SHORT).show();
+//-------
         isPlaying = getIntent().getExtras().getBoolean("isPlaying");
         mServ = new MusicService();
         Intent music = new Intent();
@@ -105,6 +127,9 @@ public class SettingsActivity extends AppCompatActivity {
                     imageView.setImageResource(itemToggled[position] ? R.drawable.settings_sound_of : R.drawable.settings_sound_on);
                 }else if(position == 2){
                     //remove ADS
+                    AdOnPause = false;
+                    mAdView.setEnabled(false);
+                    mAdView.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(),"remove ADS",Toast.LENGTH_SHORT).show();
 
                 }else if(position == 3){

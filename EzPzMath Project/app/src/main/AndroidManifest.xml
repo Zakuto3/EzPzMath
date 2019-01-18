@@ -39,6 +39,13 @@
         <activity
             android:name=".HowToPlayActivity"
             android:screenOrientation="portrait"></activity>
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
+        <meta-data
+            android:name="ca-app-pub-4962417284462920~5794185725"
+            android:value="ca-app-pub-4962417284462920/7834805951"/>
+
     </application>
 
 </manifest>

@@ -47,6 +47,38 @@
           }
         },
         {
+          "client_id": "862807137429-616i3sfpjeeab73h6v4obp9ojai062sh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "fc136a56298f9030f5d740b6b14af8ea300d2388"
+          }
+        },
+        {
+          "client_id": "862807137429-abc9mikqqgftlo32fnnp2orchskuq9ai.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "f9c91293123b09bed57f2c3ee2b330f5b76667a2"
+          }
+        },
+        {
+          "client_id": "862807137429-a7jusbeq1ajta7igp66dpvd9k88snjfj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "c3bd8f84a765db385ab19288e6d47fc6c397581f"
+          }
+        },
+        {
+          "client_id": "862807137429-reko2tadslp13mjk36sn9ojkh3oqsp7o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.waki.ezpzmath",
+            "certificate_hash": "8e8087af29124aa6c47387762a876ef2153d4432"
+          }
+        },
+        {
           "client_id": "862807137429-8es8eqosai9fkvpq3goecvkj5cdgt4ik.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -72,7 +104,8 @@
         "ads_service": {
           "status": 2
         }
-      }
+      },
+      "admob_app_id": "ca-app-pub-4962417284462920~5794185725"
     }
   ],
   "configuration_version": "1"
