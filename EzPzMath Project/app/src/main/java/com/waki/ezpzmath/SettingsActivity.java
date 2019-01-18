@@ -25,7 +25,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
@@ -82,6 +81,8 @@ public class SettingsActivity extends AppCompatActivity {
             startService(music);
         }
 
+        manageAnim();
+
         itemToggled = new boolean[Images.length];
         Arrays.fill(itemToggled, false);
         if(isPlaying == false) {
@@ -89,6 +90,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         mAuth = FirebaseAuth.getInstance();
+
+        if(mAuth.getCurrentUser() == null){
+            Titles[3] = "Log in";
+        }
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -152,6 +158,21 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void manageAnim() {
+        String prevActivity = "";
+        try{
+            prevActivity = getIntent().getExtras().getString("PreviousActivity");
+        }catch (Exception e){
+            prevActivity = null;
+        }
+        if(prevActivity != null){
+            overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+        }else{
+            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        }
+    }
+
     public void setSoundIcon(boolean isPlaying){
         if(!isPlaying){
             Images[1] = R.drawable.settings_sound_of;
@@ -225,6 +246,7 @@ public class SettingsActivity extends AppCompatActivity {
     public void openModesActivity(boolean isPlaying){
         Intent intent = new Intent (this, ModesActivity.class);
         intent.putExtra("isPlaying", isPlaying);
+        intent.putExtra("PreviousActivity", "Settings");
         startActivity(intent);
 
     }

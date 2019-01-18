@@ -6,22 +6,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ModesActivity extends AppCompatActivity {
     private Button first_mode_button;
@@ -74,6 +70,8 @@ public class ModesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modes);
+
+        manageAnim();
 
         isPlaying = getIntent().getExtras().getBoolean("isPlaying");
         mServ = new MusicService();
@@ -201,5 +199,34 @@ public class ModesActivity extends AppCompatActivity {
         alertbox.getWindow().setBackgroundDrawableResource(R.color.dialog_color);
         alertbox.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#c5f5c2"));
         alertbox.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#c5f5c2"));
+    }
+
+    void manageAnim(){
+        String prevActivity = "";
+        try{
+            prevActivity = getIntent().getExtras().getString("PreviousActivity");
+        }catch (Exception e){
+            prevActivity = null;
+        }
+        if(prevActivity != null){
+            switch(prevActivity){
+                case "Score":
+                    overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                    break;
+                case "Settings":
+                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                    break;
+                case "Login":
+                    overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top);
+                    break;
+                default:
+                    overridePendingTransition(R.anim.slide_in_from_top, R.anim.slide_out_to_bottom);
+                    break;
+            }
+        }
+        else{
+            overridePendingTransition(R.anim.slide_in_from_top, R.anim.slide_out_to_bottom);
+        }
+
     }
 }

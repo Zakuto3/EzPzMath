@@ -24,6 +24,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,8 +41,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
     private boolean mIsBound = false;      //For anything about Music Service have a look on the comments in Main activity and MusicService class
     private MusicService mServ;
     int timeHint = 1;
+    Button currentHintBrick;
     private ServiceConnection Scon = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -96,6 +97,8 @@ public class GameActivity extends AppCompatActivity {
         soundBtn = findViewById(R.id.soundButton_game);
         isPlaying = getIntent().getExtras().getBoolean("isPlaying");
 
+
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_to_top);
 
         setSoundIcon(isPlaying);
         mServ = new MusicService();
@@ -137,7 +140,7 @@ public class GameActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openModesActivity(isPlaying);
+                exitByBackKey();
             }
         });
         markPosition();
@@ -504,6 +507,7 @@ public class GameActivity extends AppCompatActivity {
 
                     if (resultAnswer == result)
                     {
+                        triggerCheckMark();
                         palySoundEffect("correct");
                         Log.d("win", "grats");
                         myResult.setText(String.format("%.2f", resultAnswer));
@@ -561,7 +565,8 @@ public class GameActivity extends AppCompatActivity {
                         }
                         LinearLayout past = findViewById(R.id.pastAnswers);
                         addPastAnswerClick(pastAnswer,numbers.length, String.format("%.2f", resultAnswer));
-                        past.addView(pastAnswer);
+                        //past.addView(pastAnswer);
+                        past.addView(pastAnswer, 0);
                         setConstraints(pastAnswer, past, numbers.length);
                         myResult.setText(String.format("%.2f", resultAnswer));
                     }
@@ -578,6 +583,9 @@ public class GameActivity extends AppCompatActivity {
                         temp.setTextColor(temp.getContext().getResources().getColor(R.color.textcolor));
                         temp.setBackgroundDrawable(getResources().getDrawable(R.drawable.game_brick));
                         temp.setEnabled(true);
+                    }
+                    if (currentHintBrick != null) {
+                        currentHintBrick.setBackgroundDrawable(getResources().getDrawable(R.drawable.empty_game_brick));
                     }
                     position = 0;
                 } catch (ScriptException e) {
@@ -802,9 +810,10 @@ public class GameActivity extends AppCompatActivity {
                     check.setEnabled(false);
 
                     check.setBackgroundDrawable(this.getResources().getDrawable(R.drawable.empty_game_brick));
+                    currentHintBrick = check;
                     Button answer = findViewById(R.id.answer);
                     answer.setEnabled(false);
-                    seconds += 5*timeHint;
+                    seconds += 10*timeHint*difficulty;
                     timeHint++;
                     if (seconds > 60)
                     {
@@ -1096,6 +1105,20 @@ public class GameActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    void triggerCheckMark(){
+        final ImageView img = findViewById(R.id.check_mark);
+        img.setVisibility(View.VISIBLE);
+        Animation fadeout = new AlphaAnimation(1.f, 0.f);
+        fadeout.setDuration(1000);
+        img.startAnimation(fadeout);
+        img.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                img.setVisibility(View.GONE);
+            }
+        }, 1000);
     }
 
     /**

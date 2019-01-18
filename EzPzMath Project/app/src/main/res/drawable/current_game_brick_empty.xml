@@ -24,7 +24,7 @@
                     <solid
                         android:color="#789B8F"/>
                     <stroke android:color="#0bdc00"
-                        android:width="7px" />
+                        android:width="3dp" />
                 </shape>
             </item>
 
